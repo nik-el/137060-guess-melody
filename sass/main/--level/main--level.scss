@@ -1,0 +1,68 @@
+$preview-size: 134px;
+$preview-spacing: 11px;
+
+.main--level {
+  justify-content: flex-start;
+  padding-top: 210px;
+
+  .main-title {
+    margin-bottom: 0.8em;
+  }
+}
+
+.main-player {
+  height: 55px;
+  margin-bottom: 80px;
+  overflow: hidden;
+  width: 530px;
+}
+
+.main-list {
+  display: flex;
+  margin: 140px auto 0;
+}
+
+.main-answer-r {
+  left: -900em;
+  position: absolute;
+}
+
+.main-answer {
+  box-sizing: border-box;
+  color: $color-text-dark;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  font-weight: 300;
+  margin: 0 5px;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  width: $preview-size;
+}
+
+.main-answer:hover {
+  .main-answer-preview {
+    border-color: $color-orange;
+  }
+}
+
+.main-answer:active {
+  .main-answer-preview {
+    border-color: red;
+  }
+}
+
+.main-answer-preview {
+  background: $color-beige;
+  border: solid 5px $color-text-dark;
+  border-radius: $preview-size;
+  box-sizing: border-box;
+  height: $preview-size;
+  margin-bottom: $preview-spacing;
+  overflow: hidden;
+  width: $preview-size;
+}
+
+@import "genre";

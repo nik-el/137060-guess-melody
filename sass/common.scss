@@ -1,0 +1,72 @@
+/*
+ * Общие переменные scss, стили лейаута, которые применяются
+ * ко всем страницам и стили переиспользуемых элементов
+ */
+
+
+$color-beige: #f0eed5;
+$color-orange: #ff9749;
+$color-text-dark: #230d1a;
+$color-text-grey: #808080;
+
+$font: 'Fira Sans', sans-serif;
+
+$layout-height: 850px;
+$layout-width: 780px;
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background: #1d121f linear-gradient(90deg, #1d121f, #270a17);
+  height: 100%;
+}
+
+body {
+  align-items: center;
+  background: url("../img/vinyl.png") center no-repeat;
+  color: #fff;
+  display: flex;
+  font: 1em $font;
+  justify-content: center;
+  height: 100%;
+  min-height: $layout-height;
+}
+
+.app {
+  height: $layout-height;
+  position: relative;
+  width: $layout-width;
+}
+
+.copyright {
+  bottom: 2em;
+  color: $color-beige;
+  font-size: 0.9em;
+  font-weight: 300;
+  position: absolute;
+  right: 0;
+  white-space: nowrap;
+}
+
+.copyright-link {
+  color: $color-orange;
+}
+
+.copyright-link::before {
+  bottom: 100%;
+  content: url('/img/ha-logo.png');
+  height: 50px;
+  left: 0;
+  margin-bottom: 0.5em;
+  position: absolute;
+  width: 145px;
+}
+
+.copyright-link:hover {
+  color: #f00;
+}
+
+@import "player/player";

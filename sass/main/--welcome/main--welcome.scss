@@ -1,0 +1,38 @@
+/*
+ * Приветственный экран игры: правила игры и кнопка начала
+ */
+
+.main--welcome {
+  padding-top: 395px;
+
+  .text {
+    text-align: center;
+    width: 23em;
+  }
+}
+
+.main-play {
+  top: 360px;
+  left: 330px;
+  background: transparent;
+  border-color: transparent;
+  border-left-color: $color-orange;
+  border-style: solid;
+  border-width: 70px 0 70px 100px;
+  font-size: 0;
+  height: 0;
+  margin-left: 20px;
+  padding: 0;
+  position: absolute;
+  text-indent: -100em;
+  transform-origin: center;
+  width: 0;
+}
+
+.main-play:hover {
+  transform: scale(1.05);
+}
+
+.main-play:active {
+  transform: scale(1.04);
+}

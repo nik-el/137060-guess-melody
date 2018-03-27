@@ -1,0 +1,64 @@
+.timer {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.timer-line {
+  fill: transparent;
+  stroke: $color-orange;
+  stroke-width: 15px;
+  height: 100%;
+  width: 100%;
+}
+
+.timer-value {
+  color: $color-orange;
+  font-size: 2em;
+  font-weight: 300;
+  left: 50%;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.timer-value-mins,
+.timer-value-secs {
+  display: inline-block;
+  width: 2ex;
+}
+
+.timer-value-mins {
+  text-align: right;
+}
+
+.timer-value-secs {
+  text-align: left;
+}
+
+.timer-value-dots {
+  animation: blink 1000ms steps(1, end) infinite;
+}
+
+.timer-value--finished {
+  animation: shrink 2000ms infinite;
+  color: red;
+
+  .timer-value-dots {
+    animation: none;
+  }
+}
+
+@keyframes blink {
+  0%  { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes shrink {
+  0%   { transform: translateX(-50%) scale(1); }
+  50%  { transform: translateX(-50%) scale(1.1); }
+  100% { transform: translateX(-50%) scale(1); }
+}

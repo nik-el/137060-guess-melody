@@ -1,0 +1,45 @@
+.genre-answer {
+  display: flex;
+  margin: 18px 0;
+}
+
+.player-wrapper {
+  height: 55px;
+  width: 410px;
+}
+
+.genre-answer input[type=checkbox] {
+  position: absolute;
+  left: -900em;
+}
+
+.genre-answer-check {
+  background: url("../img/icon-note-inactive.png") no-repeat;
+  height: 49px;
+  width: 35px;
+}
+
+input[type=checkbox]:checked + .genre-answer-check {
+  background-image: url("../img/icon-note-active.png");
+}
+
+.genre-answer-send {
+  background: $color-beige;
+  border: solid 4px $color-orange;
+  border-radius: 20px;
+  color: $color-text-dark;
+  display: block;
+  font: italic 300 2em $font;
+  margin: 20px auto 0;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.genre-answer-send:disabled {
+  color: $color-text-grey;
+  border: 4px solid lighten($color-orange, 15%);
+}
+
+.genre-answer-send:hover {
+  color: $color-orange;
+}
