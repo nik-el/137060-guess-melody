@@ -41,6 +41,10 @@ body {
   width: $layout-width;
 }
 
+.screen{
+  height: inherit;
+}
+
 .copyright {
   bottom: 2em;
   color: $color-beige;
