@@ -20,22 +20,31 @@ const renderScreen = (screenId) => {
   currentScreen.innerHTML = ``;
   currentScreen.appendChild(templateScreens[screenId]);
 };
+const renderNextScreen = () => {
+  if (currentScreenId < templateScreens.length - 1) {
+    currentScreenId++;
+    renderScreen(currentScreenId);
+  }
+};
+const renderPreviousScreen = () => {
+  if (currentScreenId > 0) {
+    currentScreenId--;
+    renderScreen(currentScreenId);
+  }
+};
 
-const switchScreen = () => {
-  document.addEventListener(`keydown`, (event) => {
-    if (!event.altKey) {
-      return;
-    }
-    if (isArrowRightKey(event.keyCode) && currentScreenId < templateScreens.length - 1) {
-      currentScreenId++;
-      renderScreen(currentScreenId);
-    } else if (isArrowLeftKey(event.keyCode) && currentScreenId > 0) {
-      currentScreenId--;
-      renderScreen(currentScreenId);
-    }
-  });
+const arrowKeysHandler = (event) => {
+  if (!event.altKey) {
+    return;
+  }
+  if (isArrowRightKey(event.keyCode)) {
+    renderNextScreen();
+  } else if (isArrowLeftKey(event.keyCode)) {
+    renderPreviousScreen();
+  }
 };
 
 renderScreen(currentScreenId);
-switchScreen();
+document.addEventListener(`keydown`, arrowKeysHandler, event);
+
 
