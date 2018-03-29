@@ -2,18 +2,18 @@ const templates = document.getElementById(`templates`);
 const templateScreens = templates.content.querySelectorAll(`section.main`);
 const currentScreen = document.querySelector(`.screen`);
 
-const keys = {
-  arrowLeftKey: 37,
-  arrowRightKey: 39,
+const Keys = {
+  ARROW_LEFT_KEY: 37,
+  ARROW_RIGHT_KEY: 39,
 };
 let currentScreenId = 0;
 
 
 const isArrowRightKey = (keyCode) => {
-  return keyCode === keys.arrowRightKey;
+  return keyCode === Keys.ARROW_RIGHT_KEY;
 };
 const isArrowLeftKey = (keyCode) => {
-  return keyCode === keys.arrowLeftKey;
+  return keyCode === Keys.ARROW_LEFT_KEY;
 };
 
 const renderScreen = (screenId) => {
