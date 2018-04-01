@@ -15,7 +15,7 @@ const Templates = {
   RESULT_FAIL_ATTEMPS: resultFailAttemptsNode
 };
 
-const currentScreen = document.querySelector(`.screen`);
+const application = document.querySelector(`.app`);
 const playGame = welcomeNode.querySelector(`.main-play`);
 const artistsAnswer = artistLevelNode.querySelectorAll(`.main-answer`);
 const genresAnswer = genreLevelNode.querySelectorAll(`.genre-answer input`);
@@ -34,8 +34,7 @@ const checkIsGenreAnswerActive = () => {
   });
 };
 
-
-const reserAnswer = () => {
+const resetAnswer = () => {
   sendGenreAnswer.disabled = true;
   genresAnswer.forEach((answer) => {
     answer.checked = false;
@@ -44,80 +43,38 @@ const reserAnswer = () => {
 
 // переключение экранов
 const goToWelcomeScreen = () => {
-  reserAnswer();
-  renderScreen(Templates.WELCOME, currentScreen);
+  resetAnswer();
+  renderScreen(Templates.WELCOME, application);
 };
 const goToArtistLevelScreen = () => {
-  renderScreen(Templates.ARTIST_LEVEL, currentScreen);
+  renderScreen(Templates.ARTIST_LEVEL, application);
 };
 const goToGenreLevelScreen = () => {
   checkIsGenreAnswerActive();
-  renderScreen(Templates.GENRE_LEVEL, currentScreen);
+  renderScreen(Templates.GENRE_LEVEL, application);
 };
-const goToResultSceen = () => {
+const goToResultScreen = () => {
   const resultsArray = [`RESULT_SUCCESS`, `RESULT_FAIL_TIME`, `RESULT_FAIL_ATTEMPS`];
   const randomResult = Math.floor(Math.random() * resultsArray.length);
-  renderScreen(Templates[resultsArray[randomResult]], currentScreen);
+  renderScreen(Templates[resultsArray[randomResult]], application);
 };
 
+// переход к артистам
 playGame.addEventListener(`click`, goToArtistLevelScreen);
+// переход к жанрам
 artistsAnswer.forEach((answer) => {
   answer.addEventListener(`click`, goToGenreLevelScreen);
 });
+// проверка выбранных ответов
 genresAnswer.forEach((answer) => {
   answer.addEventListener(`click`, checkIsGenreAnswerActive);
 });
-sendGenreAnswer.addEventListener(`click`, goToResultSceen);
+// переход к результатам
+sendGenreAnswer.addEventListener(`click`, goToResultScreen);
+// начать новую игру
 replayGame.forEach((replay) => {
   replay.addEventListener(`click`, goToWelcomeScreen);
 });
 
 // показываем экран приветствия
 goToWelcomeScreen();
-
-
-// const templateScreens = templates.content.querySelectorAll(`section.main`);
-// const templates = document.getElementById(`templates`);
-// const Keys = {
-//   ARROW_LEFT_KEY: 37,
-//   ARROW_RIGHT_KEY: 39,
-// };
-// let currentScreenId = 0;
-//
-//
-// const isArrowRightKey = (keyCode) => {
-//   return keyCode === Keys.ARROW_RIGHT_KEY;
-// };
-// const isArrowLeftKey = (keyCode) => {
-//   return keyCode === Keys.ARROW_LEFT_KEY;
-// };
-
-// const renderScreen = (screenId) => {
-//   currentScreen.innerHTML = ``;
-//   currentScreen.appendChild(templateScreens[screenId]);
-// };
-
-// const renderNextScreen = () => {
-//   if (currentScreenId < templateScreens.length - 1) {
-//     currentScreenId++;
-//     renderScreen(currentScreenId, currentScreen);
-//   }
-// };
-// const renderPreviousScreen = () => {
-//   if (currentScreenId > 0) {
-//     currentScreenId--;
-//     renderScreen(currentScreenId);
-//   }
-// };
-//
-// const arrowKeysHandler = (event) => {
-//   if (!event.altKey) {
-//     return;
-//   }
-//   if (isArrowRightKey(event.keyCode)) {
-//     renderNextScreen();
-//   } else if (isArrowLeftKey(event.keyCode)) {
-//     renderPreviousScreen();
-//   }
-// };
-// document.addEventListener(`keydown`, arrowKeysHandler, event);
