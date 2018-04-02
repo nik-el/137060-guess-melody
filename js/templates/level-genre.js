@@ -1,6 +1,15 @@
-import getElementFromTemplate from '../service/node-from-template';
+import {getElementFromTemplate, renderScreen} from '../service';
+import resultSuccessNode from './result-success';
+import resultFailTimeNode from './result-fail-time';
+import resultFailAttemptsNode from './result-fail-attempts';
 
-const artistGenreTemplate = `<section class="main main--level main--level-genre">
+const ResultTemplates = {
+  RESULT_SUCCESS: resultSuccessNode,
+  RESULT_FAIL_TIME: resultFailTimeNode,
+  RESULT_FAIL_ATTEMPS: resultFailAttemptsNode
+};
+
+const genreLevelTemplate = `<section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -82,7 +91,39 @@ const artistGenreTemplate = `<section class="main main--level main--level-genre"
       </form>
     </div>
   </section>`;
+const genreLevelNode = getElementFromTemplate(genreLevelTemplate);
 
-const artistGenreNode = getElementFromTemplate(artistGenreTemplate);
+const sendGenreAnswer = genreLevelNode.querySelector(`.genre-answer-send`);
+const genresAnswer = genreLevelNode.querySelectorAll(`.genre-answer input`);
 
-export default artistGenreNode;
+const resetAnswer = () => {
+  sendGenreAnswer.disabled = true;
+  genresAnswer.forEach((answer) => {
+    answer.checked = false;
+  });
+};
+
+const goToResultScreen = () => {
+  resetAnswer();
+  const resultsArray = [`RESULT_SUCCESS`, `RESULT_FAIL_TIME`, `RESULT_FAIL_ATTEMPS`];
+  const randomResult = Math.floor(Math.random() * resultsArray.length);
+  renderScreen(ResultTemplates[resultsArray[randomResult]]);
+};
+
+const checkIsGenreAnswerActive = () => {
+  sendGenreAnswer.disabled = true;
+  genresAnswer.forEach((answer) => {
+    if (answer.checked) {
+      sendGenreAnswer.disabled = false;
+    }
+  });
+};
+
+genresAnswer.forEach((answer) => {
+  answer.addEventListener(`click`, checkIsGenreAnswerActive);
+});
+
+sendGenreAnswer.addEventListener(`click`, goToResultScreen);
+
+resetAnswer();
+export default genreLevelNode;

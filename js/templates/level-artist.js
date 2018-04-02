@@ -1,4 +1,5 @@
-import getElementFromTemplate from '../service/node-from-template';
+import {getElementFromTemplate, renderScreen} from '../service';
+import genreLevelNode from './level-genre';
 
 const artistLevelTemplate = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -61,5 +62,15 @@ const artistLevelTemplate = `<section class="main main--level main--level-artist
   </section>`;
 
 const artistLevelNode = getElementFromTemplate(artistLevelTemplate);
+
+const artistsAnswer = artistLevelNode.querySelectorAll(`.main-answer`);
+
+const goToGenreLevelScreen = () => {
+  renderScreen(genreLevelNode);
+};
+
+artistsAnswer.forEach((answer) => {
+  answer.addEventListener(`click`, goToGenreLevelScreen);
+});
 
 export default artistLevelNode;

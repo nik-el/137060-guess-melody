@@ -1,4 +1,5 @@
-import getElementFromTemplate from '../service/node-from-template';
+import {getElementFromTemplate, renderScreen} from '../service';
+import artistLevelNode from './level-artist';
 
 const welcomeTemplate = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -12,5 +13,13 @@ const welcomeTemplate = `<section class="main main--welcome">
   </section>`;
 
 const welcomeNode = getElementFromTemplate(welcomeTemplate);
+
+const playGame = welcomeNode.querySelector(`.main-play`);
+
+const goToArtistLevelScreen = () => {
+  renderScreen(artistLevelNode);
+};
+
+playGame.addEventListener(`click`, goToArtistLevelScreen);
 
 export default welcomeNode;

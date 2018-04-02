@@ -1,4 +1,5 @@
-import getElementFromTemplate from '../service/node-from-template';
+import {getElementFromTemplate} from '../service';
+import {startNewGame} from '../service';
 
 const failByAttemptsResultTemplate = `<section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -9,5 +10,9 @@ const failByAttemptsResultTemplate = `<section class="main main--result">
   </section>`;
 
 const failByAttemptsResultNode = getElementFromTemplate(failByAttemptsResultTemplate);
+
+const replay = failByAttemptsResultNode.querySelector(`.main-replay`);
+
+replay.addEventListener(`click`, startNewGame);
 
 export default failByAttemptsResultNode;
