@@ -1,5 +1,3 @@
-import welcomeNode from './screens/welcome';
-
 const app = document.querySelector(`.app`);
 
 const renderScreen = (node) => {
@@ -17,9 +15,4 @@ const getElementFromTemplate = (screenTemplate) => {
   return newScreen;
 };
 
-const startNewGame = () => {
-  renderScreen(welcomeNode);
-};
-
-
-export {getElementFromTemplate, renderScreen, startNewGame};
+export {getElementFromTemplate, renderScreen};
