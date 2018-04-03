@@ -108,11 +108,11 @@ export default () => {
 
   const chooseAnswerClickHandler = () => {
     sendAnswer.disabled = true;
-    genresAnswer.forEach((answer) => {
+    for (const answer of genresAnswer) {
       if (answer.checked) {
         sendAnswer.disabled = false;
       }
-    });
+    }
   };
 
   const sendAnswerClickHandler = () => {
