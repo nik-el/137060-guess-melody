@@ -1,4 +1,3 @@
-import welcomeNode from "./templates/welcome";
-import {renderScreen} from './service';
+import renderWelcomeScreen from './screens/welcome';
 
-renderScreen(welcomeNode);
+renderWelcomeScreen();

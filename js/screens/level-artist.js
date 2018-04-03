@@ -1,7 +1,8 @@
 import {getElementFromTemplate, renderScreen} from '../service';
-import genreLevelNode from './level-genre';
+import renderGenreScreen from './level-genre';
 
-const artistLevelTemplate = `<section class="main main--level main--level-artist">
+const screenContainer = getElementFromTemplate(`
+<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -59,18 +60,20 @@ const artistLevelTemplate = `<section class="main main--level main--level-artist
         </div>
       </form>
     </div>
-  </section>`;
+  </section>
+`);
 
-const artistLevelNode = getElementFromTemplate(artistLevelTemplate);
+export default () => {
+  const renderedContainer = renderScreen(screenContainer);
+  const artistsAnswer = renderedContainer.querySelectorAll(`.main-answer`);
 
-const artistsAnswer = artistLevelNode.querySelectorAll(`.main-answer`);
+  const answerClickHandler = () => {
+    renderGenreScreen();
+  };
 
-const goToGenreLevelScreen = () => {
-  renderScreen(genreLevelNode);
+  artistsAnswer.forEach((answer) => {
+    answer.addEventListener(`click`, answerClickHandler);
+  });
 };
 
-artistsAnswer.forEach((answer) => {
-  answer.addEventListener(`click`, goToGenreLevelScreen);
-});
 
-export default artistLevelNode;

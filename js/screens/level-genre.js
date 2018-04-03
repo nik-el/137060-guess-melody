@@ -1,15 +1,16 @@
 import {getElementFromTemplate, renderScreen} from '../service';
-import resultSuccessNode from './result-success';
-import resultFailTimeNode from './result-fail-time';
-import resultFailAttemptsNode from './result-fail-attempts';
+import renderSuccessScreen from './result-success';
+import renderTimeoutScreen from './result-fail-time';
+import renderNoAttemptsScreen from './result-fail-attempts';
 
-const ResultTemplates = {
-  RESULT_SUCCESS: resultSuccessNode,
-  RESULT_FAIL_TIME: resultFailTimeNode,
-  RESULT_FAIL_ATTEMPS: resultFailAttemptsNode
-};
+const resultTemplates = [
+  renderSuccessScreen,
+  renderTimeoutScreen,
+  renderNoAttemptsScreen
+];
 
-const genreLevelTemplate = `<section class="main main--level main--level-genre">
+const screenContainer = getElementFromTemplate(`
+<section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -90,40 +91,39 @@ const genreLevelTemplate = `<section class="main main--level main--level-genre">
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
     </div>
-  </section>`;
-const genreLevelNode = getElementFromTemplate(genreLevelTemplate);
+  </section>
+`);
 
-const sendGenreAnswer = genreLevelNode.querySelector(`.genre-answer-send`);
-const genresAnswer = genreLevelNode.querySelectorAll(`.genre-answer input`);
+export default () => {
+  const renderedContainer = renderScreen(screenContainer);
+  const genreForm = renderedContainer.querySelector(`.genre`);
+  const sendAnswer = renderedContainer.querySelector(`.genre-answer-send`);
+  const genresAnswer = renderedContainer.querySelectorAll(`.genre-answer input`);
 
-const resetAnswer = () => {
-  sendGenreAnswer.disabled = true;
+  sendAnswer.disabled = true;
+
+  const resetAnswer = () => {
+    genreForm.reset();
+  };
+
+  const chooseAnswerClickHandler = () => {
+    sendAnswer.disabled = true;
+    genresAnswer.forEach((answer) => {
+      if (answer.checked) {
+        sendAnswer.disabled = false;
+      }
+    });
+  };
+
+  const sendAnswerClickHandler = () => {
+    resetAnswer();
+    const randomNumber = Math.floor(Math.random() * resultTemplates.length);
+    resultTemplates[randomNumber]();
+  };
+
   genresAnswer.forEach((answer) => {
-    answer.checked = false;
+    answer.addEventListener(`click`, chooseAnswerClickHandler);
   });
+
+  sendAnswer.addEventListener(`click`, sendAnswerClickHandler);
 };
-
-const goToResultScreen = () => {
-  resetAnswer();
-  const resultsArray = [`RESULT_SUCCESS`, `RESULT_FAIL_TIME`, `RESULT_FAIL_ATTEMPS`];
-  const randomResult = Math.floor(Math.random() * resultsArray.length);
-  renderScreen(ResultTemplates[resultsArray[randomResult]]);
-};
-
-const checkIsGenreAnswerActive = () => {
-  sendGenreAnswer.disabled = true;
-  genresAnswer.forEach((answer) => {
-    if (answer.checked) {
-      sendGenreAnswer.disabled = false;
-    }
-  });
-};
-
-genresAnswer.forEach((answer) => {
-  answer.addEventListener(`click`, checkIsGenreAnswerActive);
-});
-
-sendGenreAnswer.addEventListener(`click`, goToResultScreen);
-
-resetAnswer();
-export default genreLevelNode;

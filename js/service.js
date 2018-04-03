@@ -1,12 +1,13 @@
-import welcomeNode from './templates/welcome';
+import welcomeNode from './screens/welcome';
 
 const app = document.querySelector(`.app`);
-const renderScreen = (template) => {
+
+const renderScreen = (node) => {
   const currentScreen = app.querySelector(`.screen`);
   if (currentScreen) {
     app.removeChild(currentScreen);
   }
-  app.insertBefore(template, app.firstChild);
+  return app.insertBefore(node, app.firstChild);
 };
 
 const getElementFromTemplate = (screenTemplate) => {

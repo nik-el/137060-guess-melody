@@ -1,7 +1,8 @@
 import {getElementFromTemplate, renderScreen} from '../service';
-import artistLevelNode from './level-artist';
+import renderArtistScreen from './level-artist';
 
-const welcomeTemplate = `<section class="main main--welcome">
+const screenContainer = getElementFromTemplate(`
+<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
     <button class="main-play">Начать игру</button>
     <h2 class="title main-title">Правила игры</h2>
@@ -10,16 +11,16 @@ const welcomeTemplate = `<section class="main main--welcome">
       Ошибиться можно 3 раза.<br>
       Удачи!
     </p>
-  </section>`;
+  </section>
+`);
 
-const welcomeNode = getElementFromTemplate(welcomeTemplate);
+export default () =>{
+  const renderedContainer = renderScreen(screenContainer);
+  const playGame = renderedContainer.querySelector(`.main-play`);
 
-const playGame = welcomeNode.querySelector(`.main-play`);
+  const playClickHandler = () => {
+    renderArtistScreen();
+  };
 
-const goToArtistLevelScreen = () => {
-  renderScreen(artistLevelNode);
+  playGame.addEventListener(`click`, playClickHandler);
 };
-
-playGame.addEventListener(`click`, goToArtistLevelScreen);
-
-export default welcomeNode;
