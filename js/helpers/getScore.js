@@ -1,10 +1,14 @@
 const MIN_ANSWERS = 10;
 
-export default (answers) => {
+export default (answers, lives) => {
   let result = 0;
 
-  if (!Array.isArray(answers)) {
+  if (typeof lives !== `number` || !Array.isArray(answers)) {
     return null;
+  }
+
+  if (lives <= 0) {
+    return -1;
   }
 
   if (answers.length < MIN_ANSWERS) {
@@ -29,8 +33,10 @@ export default (answers) => {
       result++;
     }
   }
+
   if (result < 0) {
     result = -1;
   }
+
   return result;
 };
