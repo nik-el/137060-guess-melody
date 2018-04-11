@@ -1,4 +1,5 @@
 const MIN_ANSWERS = 10;
+const FAST_TIME = 30;
 
 export default (answers, lives) => {
   let result = 0;
@@ -27,9 +28,9 @@ export default (answers, lives) => {
     if (!it.isCorrect) {
       result = result - 2;
       continue;
-    } else if (it.time > 0 && it.time < 30) {
+    } else if (it.time > 0 && it.time < FAST_TIME) {
       result = result + 2;
-    } else if (it.time >= 30) {
+    } else if (it.time >= FAST_TIME) {
       result++;
     }
   }
