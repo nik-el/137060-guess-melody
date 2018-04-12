@@ -2,38 +2,30 @@ const MIN_ANSWERS = 10;
 const FAST_TIME = 30;
 
 export default (answers, lives) => {
-  let result = 0;
-
   if (typeof lives !== `number` || !Array.isArray(answers)) {
     return null;
   }
 
-  if (lives <= 0) {
+  if (lives <= 0 || answers.length < MIN_ANSWERS) {
     return -1;
   }
 
-  if (answers.length < MIN_ANSWERS) {
-    return -1;
-  }
+  let result = 0;
+  result = answers
+      .filter((answer) => answer.time > 0)
+      .reduce((acc, answer) => {
+        if (!answer.isCorrect) {
+          return acc - 2;
+        }
 
-  for (const it of answers) {
+        if (answer.time < FAST_TIME) {
+          return acc + 2;
+        } else if (answer.time >= FAST_TIME) {
+          return acc + 1;
+        }
 
-    if (typeof it !== `object` && !it
-      || typeof it.isCorrect !== `boolean`
-      || typeof it.time !== `number`
-      || it.time <= 0) {
-      return null;
-    }
-
-    if (!it.isCorrect) {
-      result = result - 2;
-      continue;
-    } else if (it.time > 0 && it.time < FAST_TIME) {
-      result = result + 2;
-    } else if (it.time >= FAST_TIME) {
-      result++;
-    }
-  }
+        return acc;
+      }, 0);
 
   if (result < 0) {
     result = -1;

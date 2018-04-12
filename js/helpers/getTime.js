@@ -1,19 +1,18 @@
-const Timer = function (time) {
-  this.timer = time;
+export default class Timer {
+  constructor(time) {
+    this.time = time;
+  }
 
-  this.tick = () =>{
-    if (typeof this.timer !== `number` || this.timer < 0) {
+  tick() {
+    if (typeof this.time !== `number` || this.time < 0) {
       return null;
     }
 
-    if (this.timer) {
-      return --this.timer;
-    } else {
-      return `Time is over!`;
+    if (!this.time) {
+      return -1;
     }
-  };
 
-};
+    return --this.time;
+  }
 
-
-export default Timer;
+}

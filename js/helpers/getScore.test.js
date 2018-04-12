@@ -1,77 +1,92 @@
 import getScore from './getScore';
 import {assert} from 'chai';
 
-const createAnswers = (quantity, specialCase) =>{
+const createAnswer = (isCorrect, time) => ({isCorrect, time});
+
+const getSpecialAnswer = (specialCase) => {
+  switch (specialCase) {
+    case `slow`: {
+      return createAnswer(true, Math.random() + 30);
+    }
+    case `fast`: {
+      return createAnswer(true, Math.random() + 10);
+    }
+    case `invalid`: {
+      return createAnswer(false, Math.random() + 10);
+    }
+    default: {
+      return createAnswer(Math.random() >= 0.5, Math.random() * 60);
+    }
+  }
+};
+
+const createAnswers = (quantity, specialCase) => {
   const answers = [];
   for (let i = 1; i <= quantity; i++) {
-    if (specialCase && specialCase === `slow`) {
-      const booleanValue = true;
-      const timeValue = Math.random() + 30;
-      answers.push({isCorrect: booleanValue, time: timeValue});
-    } else if (specialCase && specialCase === `fast`) {
-      const booleanValue = true;
-      const timeValue = Math.random() + 10;
-      answers.push({isCorrect: booleanValue, time: timeValue});
-    } else if (specialCase && specialCase === `no correct`) {
-      const booleanValue = false;
-      const timeValue = Math.random() + 30;
-      answers.push({isCorrect: booleanValue, time: timeValue});
-    } else {
-      const booleanValue = Math.random() >= 0.5;
-      const timeValue = (Math.random() * 60);
-      answers.push({isCorrect: booleanValue, time: timeValue});
-    }
+    answers.push(getSpecialAnswer(specialCase));
   }
   return answers;
 };
 
-const GAME_OVER = -1;
+suite(`getScore`, () => {
 
-describe(`getScore`, () => {
-
-  it(`should return null when answers not array`, () => {
+  test(`should return null when answers not array`, () => {
+    const lives = 3;
     [
       42,
       {},
       null,
       ``
-    ].forEach((item) => assert.isNull(getScore(item, 3)));
+    ].forEach((item) =>{
+      const actual = getScore(item, lives);
+      assert.isNull(actual);
+    });
   });
 
-  it(`should return null when answer not consistent`, () => {
-    let answers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    assert.isNull(getScore(answers, 3));
+  test(`should return -1 when zero lives`, () => {
+    const lives = 0;
 
-    answers = createAnswers(10);
-    answers[2].isCorrect = 34;
-    assert.isNull(getScore(answers, 3));
+    const actual = getScore(createAnswers(10, `fast`), lives);
+    const expected = -1;
 
-    answers = createAnswers(10);
-    answers[3].time = `time`;
-    assert.isNull(getScore(answers, 2));
+    assert.strictEqual(actual, expected);
   });
 
-  it(`should return -1 when zero lives`, () => {
-    assert.strictEqual(getScore(createAnswers(10, `fast`), 0), GAME_OVER);
-    assert.strictEqual(getScore(createAnswers(10, `slow`), 0), GAME_OVER);
+  test(`should return -1 when answers less 10`, () => {
+    const lives = 2;
+
+    const actual = getScore(createAnswers(9), lives);
+    const expected = -1;
+
+    assert.strictEqual(actual, expected);
   });
 
-  it(`should return -1 when answers less 10`, () => {
-    [
-      [],
-      [null],
-      [0, 42],
-      []
-    ].forEach((item) => assert.strictEqual(getScore(item, 3), GAME_OVER));
-    assert.strictEqual(getScore(createAnswers(5), 2), GAME_OVER);
-    assert.strictEqual(getScore(createAnswers(9), 3), GAME_OVER);
+  test(`should return 10 when all answers are slow`, () => {
+    const lives = 3;
+    const actual = getScore(createAnswers(10, `slow`), lives);
+    const expected = 10;
+
+    assert.strictEqual(actual, expected);
   });
 
-  it(`should return correct score`, () => {
+  test(`should return 20 when all answers are fast`, () => {
+    const lives = 3;
+    const actual = getScore(createAnswers(10, `fast`), lives);
+    const expected = 20;
 
-    assert.strictEqual(getScore(createAnswers(10, `slow`), 2), 10);
-    assert.strictEqual(getScore(createAnswers(10, `fast`), 2), 20);
-    assert.strictEqual(getScore(createAnswers(10, `no correct`), 1), GAME_OVER);
+    assert.strictEqual(actual, expected);
+  });
+
+  test(`should return -1 when all answers are invalid`, () => {
+    const lives = 3;
+    const actual = getScore(createAnswers(10, `invalid`), lives);
+    const expected = -1;
+
+    assert.strictEqual(actual, expected);
+  });
+
+  test(`should return correct score`, () => {
+    const lives = 1;
 
     let answers = [
       {isCorrect: false, time: 23},
@@ -85,7 +100,11 @@ describe(`getScore`, () => {
       {isCorrect: true, time: 99},
       {isCorrect: true, time: 100},
     ];
-    assert.strictEqual(getScore(answers, 3), 3);
+
+    let actual = getScore(answers, lives);
+    let expected = 3;
+
+    assert.strictEqual(actual, expected);
 
     answers = [
       {isCorrect: false, time: 23},
@@ -99,7 +118,12 @@ describe(`getScore`, () => {
       {isCorrect: true, time: 99},
       {isCorrect: true, time: 100},
     ];
-    assert.strictEqual(getScore(answers, 3), GAME_OVER);
+
+    actual = getScore(answers, lives);
+    expected = -1;
+
+    assert.strictEqual(actual, expected);
 
   });
+
 });
