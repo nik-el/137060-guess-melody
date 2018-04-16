@@ -1,4 +1,4 @@
-import getScore from './getScore';
+import getScore from '../getScore';
 import {assert} from 'chai';
 
 const createAnswer = (isCorrect, time) => ({isCorrect, time});

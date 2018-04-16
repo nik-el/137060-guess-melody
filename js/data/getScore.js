@@ -1,12 +1,12 @@
 const MIN_ANSWERS = 10;
 const FAST_TIME = 30;
 
-export default (answers, lives) => {
-  if (typeof lives !== `number` || !Array.isArray(answers)) {
+export default (answers, mistakes) => {
+  if (typeof mistakes !== `number` || !Array.isArray(answers)) {
     return null;
   }
 
-  if (lives <= 0 || answers.length < MIN_ANSWERS) {
+  if (mistakes < 0 || answers.length < MIN_ANSWERS) {
     return -1;
   }
 
@@ -28,7 +28,7 @@ export default (answers, lives) => {
       }, 0);
 
   if (result < 0) {
-    result = -1;
+    result = 0;
   }
 
   return result;
