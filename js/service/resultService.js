@@ -1,17 +1,17 @@
 import {currentResult, resultsArray} from '../data/gameData';
 import {getTimerFormat, getCorrectNoun} from '../helpers';
-import getTextResult from '../data/getTextResult';
+import getTextResult from './getTextResult';
 
 export default () => {
   let textResult = ``;
   if (currentResult.mistakes < 0) {
     textResult = `<h2 class="title">Какая жалость!</h2>
-    <div class="main-stat">${getTextResult(currentResult, resultsArray)}</div>
-    <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
-   `;
+      <div class="main-stat">${getTextResult(currentResult, resultsArray)}</div>
+      <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
+    `;
   } else if (!currentResult.time) {
     textResult = `<h2 class="title">Увы и ах!</h2>
-      <div class="main-stat">Время вышло!<br>Вы не успели отгадать все мелодии</div>
+      <div class="main-stat">${getTextResult(currentResult, resultsArray)}/div>
       <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
     `;
   } else {

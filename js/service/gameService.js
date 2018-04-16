@@ -2,9 +2,9 @@ import renderWelcomeScreen from '../screens/welcome';
 import renderGenreScreen from '../screens/genre';
 import renderArtistScreen from '../screens/artist';
 import renderResultScreen from '../screens/result';
-import {currentAnswers, currentResult, INITIAL_STATE} from '../data/gameData';
-import getScore from '../data/getScore';
+import getScore from './getScore';
 import {getRandomInt} from '../helpers';
+import {currentAnswers, currentResult, INITIAL_STATE} from '../data/gameData';
 
 const pushNextLevel = (nextLevel) => {
   if (currentResult.mistakes < 0) {
@@ -39,7 +39,6 @@ const resetGame = () => {
   currentAnswers.length = 0;
 
   renderWelcomeScreen();
-
 };
 
 export {pushNextLevel, checkAnswer, resetGame};

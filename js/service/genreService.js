@@ -26,7 +26,6 @@ export default (level) => {
     return answer;
   }).join(``) + `<button class="genre-answer-send" type="submit" disabled="">Ответить</button>`;
 
-
   genreContainer.appendChild(answersContainer);
 
   return genreContainer.innerHTML;

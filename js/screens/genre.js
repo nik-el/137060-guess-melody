@@ -26,7 +26,6 @@ export default (level) => {
   const genresAnswer = renderedContainer.querySelectorAll(`.genre-answer input`);
   const sendAnswer = renderedContainer.querySelector(`.genre-answer-send`);
 
-
   const resetForm = () => {
     sendAnswer.disabled = true;
     genreForm.reset();
@@ -51,6 +50,7 @@ export default (level) => {
         commonAnswer = false;
       }
     }
+
     checkAnswer(commonAnswer);
     pushNextLevel(currentLevel.next);
   };

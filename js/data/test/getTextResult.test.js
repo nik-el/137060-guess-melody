@@ -1,4 +1,4 @@
-import getResult from '../getTextResult';
+import getResult from '../../service/getTextResult';
 import {assert} from 'chai';
 
 suite(`getResult`, () => {

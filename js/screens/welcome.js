@@ -16,7 +16,6 @@ const screenContainer = getElementFromTemplate(`
 
 
 export default () =>{
-
   const renderedContainer = renderScreen(screenContainer);
   const playGame = renderedContainer.querySelector(`.main-play`);
 
