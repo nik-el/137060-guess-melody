@@ -13,8 +13,8 @@ suite(`getResult`, () => {
     assert.equal(actual, expected);
   });
 
-  test(`should return no lives message`, () => {
-    const noLivesPlayer = {lives: 0, score: 6, time: 20};
+  test(`should return no available mistakes`, () => {
+    const noLivesPlayer = {mistakes: -1, score: 6, time: 20};
     let resultsArray = [{lives: 2, score: 1, time: 30}];
 
     const actual = getResult(noLivesPlayer, resultsArray);

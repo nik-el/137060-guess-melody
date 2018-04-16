@@ -43,10 +43,10 @@ suite(`getScore`, () => {
     });
   });
 
-  test(`should return -1 when zero lives`, () => {
-    const lives = 0;
+  test(`should return -1 when no available mistakes`, () => {
+    const mistakes = -1;
 
-    const actual = getScore(createAnswers(10, `fast`), lives);
+    const actual = getScore(createAnswers(10, `fast`), mistakes);
     const expected = -1;
 
     assert.strictEqual(actual, expected);
@@ -77,10 +77,10 @@ suite(`getScore`, () => {
     assert.strictEqual(actual, expected);
   });
 
-  test(`should return -1 when all answers are invalid`, () => {
+  test(`should return zero score when all answers are invalid`, () => {
     const lives = 3;
     const actual = getScore(createAnswers(10, `invalid`), lives);
-    const expected = -1;
+    const expected = 0;
 
     assert.strictEqual(actual, expected);
   });
@@ -120,7 +120,7 @@ suite(`getScore`, () => {
     ];
 
     actual = getScore(answers, lives);
-    expected = -1;
+    expected = 0;
 
     assert.strictEqual(actual, expected);
 
