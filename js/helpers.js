@@ -11,7 +11,7 @@ const getFastAnswers = (answers) => {
     }
   });
   return result;
-}
+};
 
 const getCorrectNoun = (quantity, one, betweenTwoAndFour, fiveAndMore) => {
   quantity %= 100;
