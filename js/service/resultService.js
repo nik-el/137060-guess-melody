@@ -1,5 +1,5 @@
-import {currentResult, resultsArray} from '../data/gameData';
-import {getTimerFormat, getCorrectNoun} from '../helpers';
+import {currentResult, resultsArray, currentAnswers} from '../data/gameData';
+import {getTimerFormat, getCorrectNoun, getFastAnswers} from '../helpers';
 import getTextResult from './getTextResult';
 
 export default () => {
@@ -22,6 +22,7 @@ export default () => {
       За ${getCorrectNoun(currentTime.minutes, `минуту`, `минуты`, `минут`)}
       и  ${getCorrectNoun(currentTime.seconds, `секунду`, `секунды`, `секунд`)}
         <br>вы&nbsp;набрали ${getCorrectNoun(currentResult.score, `балл`, `балла`, `баллов`)}
+        (${getCorrectNoun(getFastAnswers(currentAnswers), `быстрый`, `быстрых`, `быстрых`)})
         <br>совершив ${getCorrectNoun(3 - currentResult.mistakes, `ошибку`, `ошибки`, `ошибок`)}</div>
       <span class="main-comparison">${getTextResult(currentResult, resultsArray)}</span>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>

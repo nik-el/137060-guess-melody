@@ -3,6 +3,16 @@ const getPercentage = (commonScores, position) => {
   return percentage;
 };
 
+const getFastAnswers = (answers) => {
+  let result = 0;
+  answers.forEach((answer) => {
+    if (answer.time < 30) {
+      result++;
+    }
+  });
+  return result;
+}
+
 const getCorrectNoun = (quantity, one, betweenTwoAndFour, fiveAndMore) => {
   quantity %= 100;
   if (quantity >= 5 && quantity <= 20) {
@@ -31,4 +41,4 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export {getPercentage, getCorrectNoun, getTimerFormat, getRandomInt};
+export {getPercentage, getCorrectNoun, getTimerFormat, getRandomInt, getFastAnswers};
