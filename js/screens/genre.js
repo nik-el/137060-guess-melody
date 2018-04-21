@@ -1,11 +1,10 @@
-import {getElementFromTemplate, renderScreen} from '../service/commonService';
-import {pushNextLevel, checkAnswer} from '../service/gameService';
-import gameStateTemplate from '../service/stateService';
-import gameGenreTemplate from '../service/genreService';
-import {currentResult, GAME_BY_GENRE} from '../data/gameData';
+import {getElementFromTemplate, renderScreen} from '../service/template';
+import {renderGameScreen} from '../service/game';
+import gameStateTemplate from '../template/state';
+import gameGenreTemplate from '../template/genre';
 
-export default (level) => {
-  const currentLevel = GAME_BY_GENRE[level];
+export default (game) => {
+  const currentLevelData = game.getCurrentLevelData();
 
   const screenContainer = getElementFromTemplate(`
   <section class="main main--level main--level-genre">
@@ -13,10 +12,10 @@ export default (level) => {
       <circle cx="390" cy="390" r="370" class="timer-line" style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
     </svg>
     <div>
-      ${gameStateTemplate(currentResult)}
+      ${gameStateTemplate(game)}
     </div>
     <div class="main-wrap">
-      ${gameGenreTemplate(currentLevel)}
+      ${gameGenreTemplate(currentLevelData)}
     </div>
   </section>
 `);
@@ -46,13 +45,14 @@ export default (level) => {
 
     let commonAnswer = true;
     for (const it of checkedAnswers) {
-      if (!currentLevel.answers[it.value].isCorrect) {
+      if (!currentLevelData.answers[it.value].isCorrect) {
         commonAnswer = false;
       }
     }
 
-    checkAnswer(commonAnswer);
-    pushNextLevel(currentLevel.next);
+    game.getAnswer(commonAnswer);
+    game.changeLevel();
+    renderGameScreen(game);
   };
 
   genresAnswer.forEach((answer) => {

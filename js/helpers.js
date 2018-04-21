@@ -1,6 +1,5 @@
 const getPercentage = (commonScores, position) => {
-  const percentage = (((commonScores.length) - position) / (commonScores.length) * 100).toFixed(0);
-  return percentage;
+  return (((commonScores.length) - position) / (commonScores.length) * 100).toFixed(0);
 };
 
 const getFastAnswers = (answers) => {
@@ -13,7 +12,7 @@ const getFastAnswers = (answers) => {
   return result;
 };
 
-const getCorrectNoun = (quantity, one, betweenTwoAndFour, fiveAndMore) => {
+const getCorrectNoun = ([one, betweenTwoAndFour, fiveAndMore]) => (quantity) => {
   quantity %= 100;
   if (quantity >= 5 && quantity <= 20) {
     return `${quantity} ${fiveAndMore}`;
@@ -30,15 +29,42 @@ const getCorrectNoun = (quantity, one, betweenTwoAndFour, fiveAndMore) => {
   return `${quantity} ${fiveAndMore}`;
 };
 
+const getCorrectMinutesText = getCorrectNoun([`минуту`, `минуты`, `минут`]);
+const getCorrectSecondsText = getCorrectNoun([`секунду`, `секунды`, `секунд`]);
+const getCorrectScoreText = getCorrectNoun([`балл`, `балла`, `баллов`]);
+const getCorrectFastAnswerText = getCorrectNoun([`быстрый`, `быстрых`, `быстрых`]);
+const getCorrectMistakesText = getCorrectNoun([`ошибку`, `ошибки`, `ошибок`]);
+const getCorrectPlayersText = getCorrectNoun([`игрока`, `игроков`, `игроков`]);
+
+
 const getTimerFormat = (time) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = time - minutes * 60;
-  const timer = {minutes, seconds};
-  return timer;
+  let minutes = Math.floor(time / 60);
+  if (minutes < 10) {
+    minutes = `0` + minutes;
+  }
+
+  let seconds = time - minutes * 60;
+  if (seconds < 10) {
+    seconds = `0` + seconds;
+  }
+
+  return {minutes, seconds};
 };
 
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export {getPercentage, getCorrectNoun, getTimerFormat, getRandomInt, getFastAnswers};
+export {
+  getPercentage,
+  getCorrectNoun,
+  getTimerFormat,
+  getRandomInt,
+  getFastAnswers,
+  getCorrectMinutesText,
+  getCorrectSecondsText,
+  getCorrectScoreText,
+  getCorrectFastAnswerText,
+  getCorrectMistakesText,
+  getCorrectPlayersText
+};

@@ -31,7 +31,6 @@ export default (level) => {
   }).join(``);
 
   artistsContainer.appendChild(answersContainer);
-
   return artistsContainer.innerHTML;
 };
 

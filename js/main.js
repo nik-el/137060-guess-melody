@@ -1,3 +1,5 @@
 import renderWelcomeScreen from './screens/welcome';
+import {Game} from './data/gameData';
 
-renderWelcomeScreen();
+const game = new Game();
+renderWelcomeScreen(game);

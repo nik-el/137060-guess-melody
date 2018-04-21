@@ -1,12 +1,11 @@
-import {getElementFromTemplate, renderScreen} from '../service/commonService';
-import {pushNextLevel, checkAnswer} from '../service/gameService';
-import gameStateTemplate from '../service/stateService';
-import gameArtistTemplate from '../service/artistsService';
-import {GAME_BY_ARTISTS, currentResult} from '../data/gameData';
+import {getElementFromTemplate, renderScreen} from '../service/template';
+import {renderGameScreen} from '../service/game';
+import gameStateTemplate from '../template/state';
+import gameArtistTemplate from '../template/artists';
 
 
-export default (level) => {
-  const currentLevel = GAME_BY_ARTISTS[level];
+export default (game) => {
+  const currentLevelData = game.getCurrentLevelData();
 
   const screenContainer = getElementFromTemplate(`
     <section class="main main--level main--level-artist">
@@ -14,10 +13,10 @@ export default (level) => {
         <circle cx="390" cy="390" r="370" class="timer-line" style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
       <div>
-        ${gameStateTemplate(currentResult)}
+        ${gameStateTemplate(game)}
       </div>  
       <div class="main-wrap">
-        ${gameArtistTemplate(currentLevel)}
+        ${gameArtistTemplate(currentLevelData)}
       </div>   
     </section>
 `);
@@ -25,9 +24,11 @@ export default (level) => {
   const renderedContainer = renderScreen(screenContainer);
 
   const answerClickHandler = (event) => {
+    const checkedAnswer = currentLevelData.answers[event.target.value].isCorrect;
 
-    checkAnswer(currentLevel.answers[event.target.value].isCorrect);
-    pushNextLevel(currentLevel.next);
+    game.getAnswer(checkedAnswer);
+    game.changeLevel();
+    renderGameScreen(game);
   };
 
   const artistsAnswer = renderedContainer.querySelectorAll(`.main-answer-wrapper`);
