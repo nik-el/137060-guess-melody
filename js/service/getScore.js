@@ -1,12 +1,12 @@
 const MIN_ANSWERS = 10;
 const FAST_TIME = 30;
-const AVAILABEL_MISTAKES = 3;
+const AVAILABLE_MISTAKES = 3;
 export default (answers, mistakes) => {
   if (typeof mistakes !== `number` || !Array.isArray(answers)) {
     return null;
   }
 
-  if (mistakes > AVAILABEL_MISTAKES || answers.length < MIN_ANSWERS) {
+  if (mistakes > AVAILABLE_MISTAKES || answers.length < MIN_ANSWERS) {
     return -1;
   }
 

@@ -1,4 +1,4 @@
-import {resultsArray, AVAILABEL_MISTAKES} from '../data/gameData';
+import {resultsArray, AVAILABLE_MISTAKES} from '../data/gameData';
 import getTextResult from '../service/getTextResult';
 import {
   getTimerFormat,
@@ -14,7 +14,7 @@ export default (game) => {
   const currentResult = game.state;
 
   let textResult = ``;
-  if (currentResult.mistakes > AVAILABEL_MISTAKES) {
+  if (currentResult.mistakes > AVAILABLE_MISTAKES) {
     textResult =
       `<h2 class="title">Какая жалость!</h2>
       <div class="main-stat">${getTextResult(currentResult, resultsArray)}</div>

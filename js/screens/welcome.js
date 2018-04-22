@@ -1,5 +1,5 @@
 import {getElementFromTemplate, renderScreen} from '../service/template';
-import renderArtistScreen from './artist';
+import {renderGameScreen} from '../service/game';
 
 const screenContainer = getElementFromTemplate(`
 <section class="main main--welcome">
@@ -20,7 +20,7 @@ export default (game) => {
   const playGame = renderedContainer.querySelector(`.main-play`);
 
   const playClickHandler = () => {
-    renderArtistScreen(game);
+    renderGameScreen(game);
   };
 
   playGame.addEventListener(`click`, playClickHandler);

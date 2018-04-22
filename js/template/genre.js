@@ -23,7 +23,7 @@ export default (level) => {
   const genreContainer = document.createElement(`div`);
   genreContainer.className = `main-wrap`;
   genreContainer.innerHTML = `      
-      <h2 class="title">Выберите ${level.genre} треки</h2>
+    <h2 class="title">Выберите ${level.genre} треки</h2>
   `;
 
   const answersContainer = document.createElement(`form`);

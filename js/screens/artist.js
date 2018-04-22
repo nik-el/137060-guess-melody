@@ -1,7 +1,7 @@
 import {getElementFromTemplate, renderScreen} from '../service/template';
 import {renderGameScreen} from '../service/game';
 import gameStateTemplate from '../template/state';
-import gameArtistTemplate from '../template/artists';
+import gameArtistTemplate from '../template/artist';
 
 
 export default (game) => {

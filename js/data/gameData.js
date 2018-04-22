@@ -1,7 +1,7 @@
 import levels from './levels';
 import {getRandomInt} from '../helpers';
 
-const AVAILABEL_MISTAKES = 3;
+const AVAILABLE_MISTAKES = 3;
 
 class Game {
   constructor() {
@@ -16,7 +16,7 @@ class Game {
   }
 
   changeLevel() {
-    if (this.state.mistakes > AVAILABEL_MISTAKES) {
+    if (this.state.mistakes > AVAILABLE_MISTAKES) {
       this.currentLevel = `result`;
     } else {
       this.currentLevel = this.levels[this.currentLevel].next;
@@ -56,4 +56,4 @@ const resultsArray =
     {mistakes: 2, score: 15, time: 30}
   ];
 
-export {Game, resultsArray, AVAILABEL_MISTAKES};
+export {Game, resultsArray, AVAILABLE_MISTAKES};

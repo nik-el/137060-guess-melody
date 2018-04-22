@@ -12,7 +12,7 @@ const renderGameScreen = (game) => {
     renderResultScreen(game);
   } else if (levelType === `artist`) {
     renderArtistScreen(game);
-  } else if ((levelType === `genre`)) {
+  } else if (levelType === `genre`) {
     renderGenreScreen(game);
   }
 };
@@ -20,7 +20,6 @@ const renderGameScreen = (game) => {
 
 const resetGame = (game) => {
   game.resetGame();
-  debugger;
   renderWelcomeScreen(game);
 };
 
