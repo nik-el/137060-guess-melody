@@ -1,17 +1,16 @@
 const MIN_ANSWERS = 10;
 const FAST_TIME = 30;
-
-export default (answers, lives) => {
-  if (typeof lives !== `number` || !Array.isArray(answers)) {
+const AVAILABLE_MISTAKES = 3;
+export default (answers, mistakes) => {
+  if (typeof mistakes !== `number` || !Array.isArray(answers)) {
     return null;
   }
 
-  if (lives <= 0 || answers.length < MIN_ANSWERS) {
+  if (mistakes > AVAILABLE_MISTAKES || answers.length < MIN_ANSWERS) {
     return -1;
   }
 
-  let result = 0;
-  result = answers
+  let result = answers
       .filter((answer) => answer.time > 0)
       .reduce((acc, answer) => {
         if (!answer.isCorrect) {
@@ -28,7 +27,7 @@ export default (answers, lives) => {
       }, 0);
 
   if (result < 0) {
-    result = -1;
+    result = 0;
   }
 
   return result;

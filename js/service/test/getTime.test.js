@@ -1,4 +1,4 @@
-import Timer from './getTime';
+import Timer from '../getTime';
 import {assert} from 'chai';
 
 suite(`getTime`, () => {

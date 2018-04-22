@@ -1,5 +1,5 @@
-import {getElementFromTemplate, renderScreen} from '../service';
-import renderArtistScreen from './level-artist';
+import {getElementFromTemplate, renderScreen} from '../service/template';
+import {renderGameScreen} from '../service/game';
 
 const screenContainer = getElementFromTemplate(`
 <section class="main main--welcome">
@@ -14,12 +14,13 @@ const screenContainer = getElementFromTemplate(`
   </section>
 `);
 
-export default () =>{
+
+export default (game) => {
   const renderedContainer = renderScreen(screenContainer);
   const playGame = renderedContainer.querySelector(`.main-play`);
 
   const playClickHandler = () => {
-    renderArtistScreen();
+    renderGameScreen(game);
   };
 
   playGame.addEventListener(`click`, playClickHandler);

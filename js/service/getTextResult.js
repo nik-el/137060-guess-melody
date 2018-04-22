@@ -1,4 +1,4 @@
-import {getPercentage, getCorrectNoun} from '../helpers';
+import {getPercentage, getCorrectPlayersText} from '../helpers';
 
 const GAME_OVER = {
   BY_TIME: `Время вышло! Вы не успели отгадать все мелодии`,
@@ -14,7 +14,7 @@ export default (playerResult, resultsArray) => {
     return null;
   }
 
-  if (playerResult.lives === 0) {
+  if (playerResult.mistakes > 3) {
     return GAME_OVER.BY_ATTEMPTS;
   }
 
@@ -34,5 +34,5 @@ export default (playerResult, resultsArray) => {
   const position = commonScores.indexOf(playerResult.score) + 1;
   const percentage = getPercentage(commonScores, position);
 
-  return `Вы заняли ${position} место из ${commonScores.length} ${getCorrectNoun(commonScores.length, `игрока`, `игроков`, `игроков`)}. Это лучше, чем у ${percentage}% игроков`;
+  return `Вы заняли ${position} место из ${getCorrectPlayersText(commonScores.length)}. Это лучше, чем у ${percentage}% игроков`;
 };

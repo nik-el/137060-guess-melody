@@ -1,4 +1,4 @@
-import getScore from './getScore';
+import getScore from '../getScore';
 import {assert} from 'chai';
 
 const createAnswer = (isCorrect, time) => ({isCorrect, time});
@@ -43,50 +43,50 @@ suite(`getScore`, () => {
     });
   });
 
-  test(`should return -1 when zero lives`, () => {
-    const lives = 0;
+  test(`should return -1 when mistakes > 3`, () => {
+    const mistakes = 4;
 
-    const actual = getScore(createAnswers(10, `fast`), lives);
+    const actual = getScore(createAnswers(10, `fast`), mistakes);
     const expected = -1;
 
     assert.strictEqual(actual, expected);
   });
 
   test(`should return -1 when answers less 10`, () => {
-    const lives = 2;
+    const mistakes = 2;
 
-    const actual = getScore(createAnswers(9), lives);
+    const actual = getScore(createAnswers(9), mistakes);
     const expected = -1;
 
     assert.strictEqual(actual, expected);
   });
 
   test(`should return 10 when all answers are slow`, () => {
-    const lives = 3;
-    const actual = getScore(createAnswers(10, `slow`), lives);
+    const mistakes = 3;
+    const actual = getScore(createAnswers(10, `slow`), mistakes);
     const expected = 10;
 
     assert.strictEqual(actual, expected);
   });
 
   test(`should return 20 when all answers are fast`, () => {
-    const lives = 3;
-    const actual = getScore(createAnswers(10, `fast`), lives);
+    const mistakes = 3;
+    const actual = getScore(createAnswers(10, `fast`), mistakes);
     const expected = 20;
 
     assert.strictEqual(actual, expected);
   });
 
-  test(`should return -1 when all answers are invalid`, () => {
-    const lives = 3;
-    const actual = getScore(createAnswers(10, `invalid`), lives);
-    const expected = -1;
+  test(`should return zero score when all answers are invalid`, () => {
+    const mistakes = 3;
+    const actual = getScore(createAnswers(10, `invalid`), mistakes);
+    const expected = 0;
 
     assert.strictEqual(actual, expected);
   });
 
   test(`should return correct score`, () => {
-    const lives = 1;
+    const mistakes = 1;
 
     let answers = [
       {isCorrect: false, time: 23},
@@ -101,7 +101,7 @@ suite(`getScore`, () => {
       {isCorrect: true, time: 100},
     ];
 
-    let actual = getScore(answers, lives);
+    let actual = getScore(answers, mistakes);
     let expected = 3;
 
     assert.strictEqual(actual, expected);
@@ -119,8 +119,8 @@ suite(`getScore`, () => {
       {isCorrect: true, time: 100},
     ];
 
-    actual = getScore(answers, lives);
-    expected = -1;
+    actual = getScore(answers, mistakes);
+    expected = 0;
 
     assert.strictEqual(actual, expected);
 
