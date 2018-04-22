@@ -13,7 +13,9 @@ export default (game) => {
   const renderedContainer = renderScreen(screenContainer);
   const replayGame = renderedContainer.querySelector(`.main-replay`);
 
-  replayGame.addEventListener(`click`, resetGame(game));
+  replayGame.addEventListener(`click`, () => {
+    resetGame(game);
+  });
 };
 
 
