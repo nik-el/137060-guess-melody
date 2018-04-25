@@ -79,7 +79,7 @@ const resultsArray =
 
 const initGame = () => {
   game = new Game();
-  renderWelcomeScreen();
+  game.resetGame();
 };
 
 

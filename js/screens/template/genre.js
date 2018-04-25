@@ -11,10 +11,10 @@ const createAnswers = (answers) => {
               </div>
             </div>
           </div>
-        <input type="checkbox" name="answer" value=${index} id="a-${index}">
-        <label class="genre-answer-check" for="a-${index}"></label>
-      </div>
-    `))
+          <input type="checkbox" name="answer" value=${index} id="a-${index}">
+          <label class="genre-answer-check" for="a-${index}"></label>
+        </div>
+      `))
       .join(``);
 };
 
