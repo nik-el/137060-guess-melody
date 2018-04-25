@@ -1,5 +1,5 @@
-import {resultsArray, AVAILABLE_MISTAKES} from '../data/gameData';
-import getTextResult from '../service/getTextResult';
+import {resultsArray, AVAILABLE_MISTAKES} from '../../data/gameData';
+import getTextResult from '../../service/getTextResult';
 import {
   getTimerFormat,
   getFastAnswers,
@@ -8,10 +8,11 @@ import {
   getCorrectScoreText,
   getCorrectFastAnswerText,
   getCorrectMistakesText,
-} from '../helpers';
+} from '../../helpers';
+import {game} from '../../data/gameData';
 
-export default (game) => {
-  const currentResult = game.state;
+export default (state) => {
+  const currentResult = state;
 
   let textResult = ``;
   if (currentResult.mistakes > AVAILABLE_MISTAKES) {

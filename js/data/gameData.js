@@ -1,7 +1,14 @@
 import levels from './levels';
 import {getRandomInt} from '../helpers';
+import getScore from '../service/getScore';
+import renderWelcomeScreen from '../screens/welcome';
+import renderArtistScreen from '../screens/artist';
+import renderGenreScreen from '../screens/genre';
+import renderResultScreen from '../screens/result';
 
 const AVAILABLE_MISTAKES = 3;
+
+let game;
 
 class Game {
   constructor() {
@@ -46,6 +53,20 @@ class Game {
     };
     this.currentLevel = `artist-1`;
     this.currentAnswers = [];
+    renderWelcomeScreen();
+  }
+
+  renderGameScreen() {
+    const levelData = game.getCurrentLevelData();
+
+    if (levelData.type === `result`) {
+      this.state.score = getScore(this.currentAnswers, this.state.mistakes);
+      renderResultScreen(this.state);
+    } else if (levelData.type === `artist`) {
+      renderArtistScreen(this.state, this.currentLevel);
+    } else if (levelData.type === `genre`) {
+      renderGenreScreen(this.state, this.currentLevel);
+    }
   }
 }
 
@@ -56,4 +77,10 @@ const resultsArray =
     {mistakes: 2, score: 15, time: 30}
   ];
 
-export {Game, resultsArray, AVAILABLE_MISTAKES};
+const initGame = () => {
+  game = new Game();
+  renderWelcomeScreen();
+};
+
+
+export {initGame, game, resultsArray, AVAILABLE_MISTAKES};

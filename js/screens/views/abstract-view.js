@@ -1,4 +1,4 @@
-import {getElementFromTemplate} from './service/template';
+import {getElementFromTemplate} from '../../service/template';
 
 class AbstractView {
   constructor() {

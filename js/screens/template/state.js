@@ -1,7 +1,7 @@
-import {getTimerFormat} from '../helpers';
+import {getTimerFormat} from '../../helpers';
 
-export default (game) => {
-  const currentState = game.state;
+export default (state) => {
+  const currentState = state;
   const currentTime = getTimerFormat(currentState.time);
 
   const gameStateContainer = document.createElement(`div`);
