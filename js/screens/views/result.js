@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view';
-import {AVAILABLE_MISTAKES} from "../../data/gameData";
-import getTextResult from "../../service/getTextResult";
+import {AVAILABLE_MISTAKES} from '../../data/gameData';
+import getTextResult from '../../service/getTextResult';
 import {
   getTimerFormat,
   getFastAnswers,
@@ -71,8 +71,8 @@ export default class resultScreenView extends AbstractView {
 
   replayGameHandler() {}
 
-  bind(element) {
-    const replayGame = element.querySelector(`.main-replay`);
+  bind() {
+    const replayGame = this.element.querySelector(`.main-replay`);
     replayGame.addEventListener(`click`, this.replayGameHandler);
   }
 }

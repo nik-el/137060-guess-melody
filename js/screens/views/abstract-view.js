@@ -25,7 +25,6 @@ class AbstractView {
   }
 
   bind() {}
-
 }
 
 export default AbstractView;

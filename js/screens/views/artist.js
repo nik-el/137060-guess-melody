@@ -1,6 +1,5 @@
 import AbstractView from './abstract-view';
 import Header from './header';
-import ArtistAnswers from './artist-answers';
 
 export default class ArtistScreenView extends AbstractView {
   constructor(state, currentLevelData) {
@@ -9,7 +8,6 @@ export default class ArtistScreenView extends AbstractView {
     this.state = state;
     this.currentLevelData = currentLevelData;
     this.header = new Header(this.state);
-    this.artistAnswers = new ArtistAnswers(this.currentLevelData.answers);
   }
 
   get template() {
@@ -32,16 +30,38 @@ export default class ArtistScreenView extends AbstractView {
               </div>
             </div>
           </div>
-          ${this.artistAnswers.template}
+          <form class="main-list">
+            ${this.answers}
+          </form>
         </div>   
       </section>
     `);
   }
 
+  get answers() {
+    return this.currentLevelData.answers
+        .map((answer, index) => `
+          <div class="main-answer-wrapper">
+            <input class="main-answer-r" type="radio" id="artist-${index}" name="answer" value="${index}">
+            <label class="main-answer" for="artist-${index}">
+              <img 
+                class="main-answer-preview"
+                src="${answer.img}"
+                alt="${answer.artist}" 
+                width="134" 
+                height="134"
+              >
+              ${answer.artist}
+            </label>
+          </div>
+        `)
+        .join(``);
+  }
+
   onAnswerSelected() {}
 
   bind() {
-    const artistsAnswer = this._element.querySelectorAll(`.main-answer-wrapper`);
+    const artistsAnswer = this.element.querySelectorAll(`.main-answer-wrapper`);
     artistsAnswer.forEach((answer) => {
       answer.addEventListener(`change`, (event) => this.onAnswerSelected(event.target.value));
     });

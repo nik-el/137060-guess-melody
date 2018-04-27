@@ -7,7 +7,7 @@ export default class HeaderView extends AbstractView {
     this.state = state;
   }
 
-  get _timerFormat() {
+  get time() {
     let minutes = Math.floor(this.state.time / 60);
     if (minutes < 10) {
       minutes = `0` + minutes;
@@ -24,15 +24,14 @@ export default class HeaderView extends AbstractView {
   get template() {
     return `
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">${this._timerFormat.minutes}</span><!--
+        <span class="timer-value-mins">${this.time.minutes}</span><!--
      --><span class="timer-value-dots">:</span><!--
-     --><span class="timer-value-secs">${this._timerFormat.seconds}</span>
+     --><span class="timer-value-secs">${this.time.seconds}</span>
       </div>
         
       <div class="main-mistakes">
       ${new Array(this.state.mistakes)
-      .fill(`
-          <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`)
+      .fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`)
       .join(``)}
       </div>
     `;
