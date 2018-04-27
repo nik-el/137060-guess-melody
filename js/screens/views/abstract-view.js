@@ -24,8 +24,8 @@ class AbstractView {
     return getElementFromTemplate(this.template);
   }
 
-  bind() {
-  }
+  bind() {}
+
 }
 
 export default AbstractView;

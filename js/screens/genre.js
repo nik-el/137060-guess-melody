@@ -2,26 +2,19 @@ import GenreView from './views/genre';
 import {game} from '../data/gameData';
 import {renderScreen} from "../service/template";
 
-export default (state, level) => {
-  const levelData = game.getCurrentLevelData(level);
-  const genreScreen = new GenreView(game.state, levelData);
+export default (state, currentLevelData) => {
+  const genreScreen = new GenreView(state, currentLevelData);
 
   genreScreen.sendAnswerClickHandler = () => {
-    const checkedAnswers = genreScreen.element.querySelectorAll(`input[name=answer]:checked`);
+    const checkedAnswersValue =
+      Array.from(genreScreen.element.querySelectorAll(`input[name=answer]:checked`))
+          .map((answer)=> {
+            return answer.value;
+          });
 
-    let commonAnswer = true;
-    for (const it of checkedAnswers) {
-      if (!levelData.answers[it.value].isCorrect) {
-        commonAnswer = false;
-      }
-    }
-
-    game.getAnswer(commonAnswer);
+    game.rememberAnswer(checkedAnswersValue);
     game.changeLevel();
-    game.renderGameScreen();
-
   };
 
   renderScreen(genreScreen.element);
-  return genreScreen.element;
 };

@@ -2,19 +2,14 @@ import ArtistView from './views/artist';
 import {game} from '../data/gameData';
 import {renderScreen} from "../service/template";
 
-export default (state, level) => {
-  const levelData = game.getCurrentLevelData(level);
-  const artistScreen = new ArtistView(game.state, levelData);
+export default (state, currentLevelData) => {
+  const artistScreen = new ArtistView(state, currentLevelData);
 
-  artistScreen.onAnswerSelected = (event) => {
-
-    const checkedAnswer = levelData.answers[event.target.value].isCorrect;
-    game.getAnswer(checkedAnswer);
+  artistScreen.onAnswerSelected = (answerIndex) => {
+    game.rememberAnswer(answerIndex);
     game.changeLevel();
-    game.renderGameScreen();
   };
 
   renderScreen(artistScreen.element);
-  return artistScreen.element;
 };
 

@@ -19,7 +19,7 @@ class Game {
       time: 300,
       score: 0,
     };
-    this.currentAnswers = [];
+    this.userAnswers = [];
   }
 
   changeLevel() {
@@ -28,18 +28,38 @@ class Game {
     } else {
       this.currentLevel = this.levels[this.currentLevel].next;
     }
-    return this.currentLevel;
+
+    this.renderGameScreen();
   }
 
-  getCurrentLevelData() {
+  get currentLevelData() {
     return this.levels[this.currentLevel];
   }
 
-  getAnswer(isCorrectAnswer) {
+  rememberAnswer(answersIndex) {
+    let isCorrectAnswer;
+
+    switch (this.currentLevelData.type) {
+      case `artist`: {
+        isCorrectAnswer = this.currentLevelData.answers[answersIndex].isCorrect;
+        break;
+      }
+      case `genre`: {
+        isCorrectAnswer = true;
+        answersIndex.forEach((index) =>{
+          if (!this.currentLevelData.answers[index].isCorrect) {
+            isCorrectAnswer = false;
+          }
+        });
+        break;
+      }
+    }
+
     if (!isCorrectAnswer) {
       ++this.state.mistakes;
     }
-    this.currentAnswers.push({
+
+    this.userAnswers.push({
       isCorrect: isCorrectAnswer,
       time: getRandomInt(20, 40),
     });
@@ -52,35 +72,32 @@ class Game {
       score: 0,
     };
     this.currentLevel = `artist-1`;
-    this.currentAnswers = [];
+    this.userAnswers = [];
     renderWelcomeScreen();
   }
 
   renderGameScreen() {
-    const levelData = game.getCurrentLevelData();
-
-    if (levelData.type === `result`) {
-      this.state.score = getScore(this.currentAnswers, this.state.mistakes);
-      renderResultScreen(this.state);
-    } else if (levelData.type === `artist`) {
-      renderArtistScreen(this.state, this.currentLevel);
-    } else if (levelData.type === `genre`) {
-      renderGenreScreen(this.state, this.currentLevel);
+    switch (this.currentLevelData.type) {
+      case `result`: {
+        this.state.score = getScore(this.userAnswers, this.state.mistakes);
+        renderResultScreen(this.state, this.userAnswers);
+        break;
+      }
+      case `artist`: {
+        renderArtistScreen(this.state, this.currentLevelData);
+        break;
+      }
+      case `genre`: {
+        renderGenreScreen(this.state, this.currentLevelData);
+        break;
+      }
     }
   }
 }
 
-const resultsArray =
-  [
-    {mistakes: 2, score: 5, time: 30},
-    {mistakes: 2, score: 10, time: 30},
-    {mistakes: 2, score: 15, time: 30}
-  ];
-
 const initGame = () => {
   game = new Game();
-  game.resetGame();
+  renderWelcomeScreen();
 };
 
-
-export {initGame, game, resultsArray, AVAILABLE_MISTAKES};
+export {initGame, game, AVAILABLE_MISTAKES};

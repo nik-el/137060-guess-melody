@@ -20,8 +20,7 @@ export default class WelcomeScreenView extends AbstractView {
     `;
   }
 
-  startNewGameHandler() {
-  }
+  startNewGameHandler() {}
 
   bind() {
     const playNewGame = this.element.querySelector(`.main-play`);

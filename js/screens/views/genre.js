@@ -1,12 +1,15 @@
 import AbstractView from './abstract-view';
-import gameStateTemplate from '../template/state';
-import gameGenreTemplate from '../template/genre';
+import Header from './header';
+import GenreAnswers from './genre-answers';
 
 export default class GenreScreenView extends AbstractView {
-  constructor(state, level) {
+  constructor(state, currentLevelData) {
     super();
+
     this.state = state;
-    this.level = level;
+    this.currentLevelData = currentLevelData;
+    this.header = new Header(this.state);
+    this.genreAnswers = new GenreAnswers(this.currentLevelData.answers);
   }
 
   get template() {
@@ -16,10 +19,14 @@ export default class GenreScreenView extends AbstractView {
         <circle cx="390" cy="390" r="370" class="timer-line" style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
       <div>
-        ${gameStateTemplate(this.state)}
+          ${this.header.template}
       </div>
       <div class="main-wrap">
-        ${gameGenreTemplate(this.level)}
+        <h2 class="title">Выберите ${this.currentLevelData.genre} треки</h2>
+        <form class="genre">
+          ${this.genreAnswers.template}
+        </form>
+        <button class="genre-answer-send" type="submit" disabled="">Ответить</button>
       </div>
     </section>
     `);
@@ -39,8 +46,7 @@ export default class GenreScreenView extends AbstractView {
     form.reset();
   }
 
-  sendAnswerClickHandler() {
-  }
+  sendAnswerClickHandler() {}
 
   bind() {
     const genreForm = this.element.querySelector(`.genre`);
