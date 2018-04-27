@@ -1,63 +1,19 @@
-import {getElementFromTemplate, renderScreen} from '../service/template';
-import {renderGameScreen} from '../service/game';
-import gameStateTemplate from '../template/state';
-import gameGenreTemplate from '../template/genre';
+import GenreView from './views/genre';
+import {game} from '../data/gameData';
+import {renderScreen} from '../service/template';
 
-export default (game) => {
-  const currentLevelData = game.getCurrentLevelData();
+export default (state, currentLevelData) => {
+  const genreScreen = new GenreView(state, currentLevelData);
 
-  const screenContainer = getElementFromTemplate(`
-  <section class="main main--level main--level-genre">
-    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-      <circle cx="390" cy="390" r="370" class="timer-line" style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
-    </svg>
-    <div>
-      ${gameStateTemplate(game)}
-    </div>
-    <div class="main-wrap">
-      ${gameGenreTemplate(currentLevelData)}
-    </div>
-  </section>
-`);
-  const renderedContainer = renderScreen(screenContainer);
+  genreScreen.sendAnswerClickHandler = () => {
+    const checkedAnswersValue =
+      Array
+          .from(genreScreen.element.querySelectorAll(`input[name=answer]:checked`))
+          .map(({value}) => value);
 
-  const genreForm = renderedContainer.querySelector(`.genre`);
-  const genresAnswer = renderedContainer.querySelectorAll(`.genre-answer input`);
-  const sendAnswer = renderedContainer.querySelector(`.genre-answer-send`);
-
-  const resetForm = () => {
-    sendAnswer.disabled = true;
-    genreForm.reset();
-  };
-  resetForm();
-
-  const chooseAnswerClickHandler = () => {
-    sendAnswer.disabled = true;
-    for (const answer of genresAnswer) {
-      if (answer.checked) {
-        sendAnswer.disabled = false;
-      }
-    }
-  };
-
-  const sendAnswerClickHandler = () => {
-    const checkedAnswers = genreForm.querySelectorAll(`input[name=answer]:checked`);
-
-    let commonAnswer = true;
-    for (const it of checkedAnswers) {
-      if (!currentLevelData.answers[it.value].isCorrect) {
-        commonAnswer = false;
-      }
-    }
-
-    game.getAnswer(commonAnswer);
+    game.rememberAnswer(checkedAnswersValue);
     game.changeLevel();
-    renderGameScreen(game);
   };
 
-  genresAnswer.forEach((answer) => {
-    answer.addEventListener(`click`, chooseAnswerClickHandler);
-  });
-
-  sendAnswer.addEventListener(`click`, sendAnswerClickHandler);
+  renderScreen(genreScreen.element);
 };

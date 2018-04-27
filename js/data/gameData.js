@@ -1,7 +1,14 @@
 import levels from './levels';
 import {getRandomInt} from '../helpers';
+import getScore from '../service/getScore';
+import renderWelcomeScreen from '../screens/welcome';
+import renderArtistScreen from '../screens/artist';
+import renderGenreScreen from '../screens/genre';
+import renderResultScreen from '../screens/result';
 
 const AVAILABLE_MISTAKES = 3;
+
+let game;
 
 class Game {
   constructor() {
@@ -12,7 +19,7 @@ class Game {
       time: 300,
       score: 0,
     };
-    this.currentAnswers = [];
+    this.userAnswers = [];
   }
 
   changeLevel() {
@@ -21,18 +28,38 @@ class Game {
     } else {
       this.currentLevel = this.levels[this.currentLevel].next;
     }
-    return this.currentLevel;
+
+    this.renderGameScreen();
   }
 
-  getCurrentLevelData() {
+  get currentLevelData() {
     return this.levels[this.currentLevel];
   }
 
-  getAnswer(isCorrectAnswer) {
+  rememberAnswer(answersIndex) {
+    let isCorrectAnswer;
+
+    switch (this.currentLevelData.type) {
+      case `artist`: {
+        isCorrectAnswer = this.currentLevelData.answers[answersIndex].isCorrect;
+        break;
+      }
+      case `genre`: {
+        isCorrectAnswer = true;
+        answersIndex.forEach((index) =>{
+          if (!this.currentLevelData.answers[index].isCorrect) {
+            isCorrectAnswer = false;
+          }
+        });
+        break;
+      }
+    }
+
     if (!isCorrectAnswer) {
       ++this.state.mistakes;
     }
-    this.currentAnswers.push({
+
+    this.userAnswers.push({
       isCorrect: isCorrectAnswer,
       time: getRandomInt(20, 40),
     });
@@ -45,15 +72,32 @@ class Game {
       score: 0,
     };
     this.currentLevel = `artist-1`;
-    this.currentAnswers = [];
+    this.userAnswers = [];
+    renderWelcomeScreen();
+  }
+
+  renderGameScreen() {
+    switch (this.currentLevelData.type) {
+      case `result`: {
+        this.state.score = getScore(this.userAnswers, this.state.mistakes);
+        renderResultScreen(this.state, this.userAnswers);
+        break;
+      }
+      case `artist`: {
+        renderArtistScreen(this.state, this.currentLevelData);
+        break;
+      }
+      case `genre`: {
+        renderGenreScreen(this.state, this.currentLevelData);
+        break;
+      }
+    }
   }
 }
 
-const resultsArray =
-  [
-    {mistakes: 2, score: 5, time: 30},
-    {mistakes: 2, score: 10, time: 30},
-    {mistakes: 2, score: 15, time: 30}
-  ];
+const initGame = () => {
+  game = new Game();
+  renderWelcomeScreen();
+};
 
-export {Game, resultsArray, AVAILABLE_MISTAKES};
+export {initGame, game, AVAILABLE_MISTAKES};

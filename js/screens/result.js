@@ -1,21 +1,13 @@
-import {getElementFromTemplate, renderScreen} from '../service/template';
-import resultTemplate from '../template/result';
-import {resetGame} from '../service/game';
+import ResultView from './views/result';
+import {game} from '../data/gameData';
+import {renderScreen} from '../service/template';
 
-export default (game) => {
-  const screenContainer = getElementFromTemplate(`
-  <section class="main main--result">
-    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
-    ${resultTemplate(game)}
-  </section>
-  `);
+export default (state, userAnswers) => {
+  const resultScreen = new ResultView(state, userAnswers);
 
-  const renderedContainer = renderScreen(screenContainer);
-  const replayGame = renderedContainer.querySelector(`.main-replay`);
+  resultScreen.replayGameHandler = () => {
+    game.resetGame();
+  };
 
-  replayGame.addEventListener(`click`, () => {
-    resetGame(game);
-  });
+  renderScreen(resultScreen.element);
 };
-
-
