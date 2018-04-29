@@ -1,5 +1,5 @@
-import GenreView from './views/genre';
-import {game} from '../data/gameData';
+import GenreView from './views/genre-view';
+import {game} from '../data/game-model';
 import {renderScreen} from '../service/template';
 
 export default (state, currentLevelData) => {

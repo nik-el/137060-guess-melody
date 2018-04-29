@@ -1,5 +1,5 @@
-import WelcomeView from './views/welcome';
-import {game} from '../data/gameData';
+import WelcomeView from './views/welcome-view';
+import {game} from '../data/game-model';
 import {renderScreen} from '../service/template';
 
 export default () => {

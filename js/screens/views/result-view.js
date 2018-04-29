@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import {AVAILABLE_MISTAKES} from '../../data/gameData';
+import {AVAILABLE_MISTAKES} from '../../data/game-model';
 import getTextResult from '../../service/getTextResult';
 import {
   getTimerFormat,

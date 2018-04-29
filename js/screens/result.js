@@ -1,5 +1,5 @@
-import ResultView from './views/result';
-import {game} from '../data/gameData';
+import ResultView from './views/result-view';
+import {game} from '../data/game-model';
 import {renderScreen} from '../service/template';
 
 export default (state, userAnswers) => {

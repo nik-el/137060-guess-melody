@@ -1,5 +1,5 @@
-import ArtistView from './views/artist';
-import {game} from '../data/gameData';
+import ArtistView from './views/artist-view';
+import {game} from '../data/game-model';
 import {renderScreen} from '../service/template';
 
 export default (state, currentLevelData) => {
