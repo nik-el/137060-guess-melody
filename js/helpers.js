@@ -1,3 +1,5 @@
+import {GAME_RULE} from './game/game';
+
 const getPercentage = (commonScores, position) => {
   return (((commonScores.length) - position) / (commonScores.length) * 100).toFixed(0);
 };
@@ -5,28 +7,30 @@ const getPercentage = (commonScores, position) => {
 const getFastAnswers = (answers) => {
   let result = 0;
   answers.forEach((answer) => {
-    if (answer.time < 30) {
+    if (answer.time < GAME_RULE.FAST_TIME && answer.isCorrect) {
       result++;
     }
   });
   return result;
 };
 
-const getCorrectNoun = ([one, betweenTwoAndFour, fiveAndMore]) => (quantity) => {
+const getCorrectNoun = ([one, betweenTwoAndFour, fiveAndMore]) => (originQuantity) => {
+  let quantity = originQuantity;
+
   quantity %= 100;
   if (quantity >= 5 && quantity <= 20) {
-    return `${quantity} ${fiveAndMore}`;
+    return `${originQuantity} ${fiveAndMore}`;
   }
 
   quantity %= 10;
   if (quantity === 1) {
-    return `${quantity} ${one}`;
+    return `${originQuantity} ${one}`;
   }
   if (quantity >= 2 && quantity <= 4) {
-    return `${quantity} ${betweenTwoAndFour}`;
+    return `${originQuantity} ${betweenTwoAndFour}`;
   }
 
-  return `${quantity} ${fiveAndMore}`;
+  return `${originQuantity} ${fiveAndMore}`;
 };
 
 const getCorrectMinutesText = getCorrectNoun([`минуту`, `минуты`, `минут`]);

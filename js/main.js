@@ -1,3 +1,3 @@
-import {initGame} from './data/gameData';
+import Application from './app.js';
 
-initGame();
+Application.showWelcome();

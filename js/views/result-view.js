@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view';
-import {AVAILABLE_MISTAKES} from '../../data/gameData';
-import getTextResult from '../../service/getTextResult';
+import getScore from '../service/getScore';
+import getTextResult from '../service/getTextResult';
 import {
   getTimerFormat,
   getFastAnswers,
@@ -9,7 +9,9 @@ import {
   getCorrectScoreText,
   getCorrectFastAnswerText,
   getCorrectMistakesText,
-} from '../../helpers';
+} from '../helpers';
+
+const AVAILABLE_MISTAKES = 3;
 
 export default class resultScreenView extends AbstractView {
   constructor(state, userAnswers) {
@@ -30,9 +32,13 @@ export default class resultScreenView extends AbstractView {
   `);
   }
 
+  get score() {
+    return getScore(this.userAnswers, this.state.mistakes);
+  }
+
   getResultTemplate() {
     let textResult = ``;
-    if (this.state.mistakes > AVAILABLE_MISTAKES) {
+    if (this.state.mistakes >= AVAILABLE_MISTAKES) {
       textResult =
         `<h2 class="title">Какая жалость!</h2>
       <div class="main-stat">${getTextResult(this.state, [])}</div>
@@ -42,7 +48,7 @@ export default class resultScreenView extends AbstractView {
     } else if (!this.state.time) {
       textResult = `
       <h2 class="title">Увы и ах!</h2>
-      <div class="main-stat">${getTextResult(this.state, [])}/div>
+      <div class="main-stat">${getTextResult(this.state, [])}</div>
       <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
     `;
       return textResult;
@@ -51,7 +57,7 @@ export default class resultScreenView extends AbstractView {
 
       const textMinutes = getCorrectMinutesText(currentTime.minutes);
       const textSeconds = getCorrectSecondsText(currentTime.seconds);
-      const textScore = getCorrectScoreText(this.state.score);
+      const textScore = getCorrectScoreText(this.score);
       const textFastAnswer = getCorrectFastAnswerText(getFastAnswers(this.userAnswers));
       const textMistakes = getCorrectMistakesText(this.state.mistakes);
 
@@ -68,6 +74,7 @@ export default class resultScreenView extends AbstractView {
       return textResult;
     }
   }
+
 
   replayGameHandler() {}
 

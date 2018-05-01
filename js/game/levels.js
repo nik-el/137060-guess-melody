@@ -5,7 +5,7 @@ export default {
     answers: [
       {
         artist: `Kevin MacLeod`,
-        img: `https://yt3.ggpht.com/-fkDeGauT7Co/AAAAAAAAAAI/AAAAAAAAAAA/dkF5ZKkrxRo/s900-c-k-no-mo-rj-c0xffffff/photo.jpg`,
+        img: `https://ostrnum.com/wp-content/uploads/2018/01/660x440_0_23d7f708024e23f383d8cf86865aaf60-900x600_0xc0a839a2_3057266191492257429.jpeg`,
         isCorrect: true,
       },
       {
@@ -15,7 +15,7 @@ export default {
       },
       {
         artist: `Audionautix`,
-        img: `http://4.bp.blogspot.com/-kft9qu5ET6U/VPFUBi9W-MI/AAAAAAAACYM/UxXilXKYwOc/s1600/audionautix%2BHalf%2BSize.jpg`,
+        img: `https://ostrnum.com/wp-content/uploads/2018/01/660x440_0_23d7f708024e23f383d8cf86865aaf60-900x600_0xc0a839a2_3057266191492257429.jpeg`,
         isCorrect: false,
       },
     ],
