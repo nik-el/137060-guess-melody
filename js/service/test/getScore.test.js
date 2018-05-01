@@ -62,7 +62,7 @@ suite(`getScore`, () => {
   });
 
   test(`should return 10 when all answers are slow`, () => {
-    const mistakes = 3;
+    const mistakes = 2;
     const actual = getScore(createAnswers(10, `slow`), mistakes);
     const expected = 10;
 
@@ -70,7 +70,7 @@ suite(`getScore`, () => {
   });
 
   test(`should return 20 when all answers are fast`, () => {
-    const mistakes = 3;
+    const mistakes = 2;
     const actual = getScore(createAnswers(10, `fast`), mistakes);
     const expected = 20;
 
@@ -78,7 +78,7 @@ suite(`getScore`, () => {
   });
 
   test(`should return zero score when all answers are invalid`, () => {
-    const mistakes = 3;
+    const mistakes = 2;
     const actual = getScore(createAnswers(10, `invalid`), mistakes);
     const expected = 0;
 

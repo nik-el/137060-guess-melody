@@ -1,17 +1,18 @@
 import GameModel from './data/game-model';
 import GamePresenter from './data/game-presenter';
 
-import WelcomeView from './screens/views/welcome-view';
-// import ResultView from './screens/views/result-view';
+import WelcomeView from './views/welcome-view';
+import ResultView from './views/result-view';
 
-const app = document.querySelector(`.app`);
+const appContent = document.querySelector(`.app`);
 
 const changeView = (node) => {
-  const screenContent = app.querySelector(`section.screen`);
+  const screenContent = appContent.querySelector(`section.screen`);
   if (screenContent) {
-    app.removeChild(screenContent);
+    appContent.innerHTML = ``;
   }
-  app.insertBefore(node, app.firstChild);
+
+  appContent.insertBefore(node, appContent.firstChild);
 };
 
 export default class Application {
@@ -27,14 +28,19 @@ export default class Application {
 
   static showGame() {
     const gameScreen = new GamePresenter(new GameModel());
-    gameScreen.isOver = () => {
-      // this.showResult(stats);
+    gameScreen.isOver = (state, userAnswer) => {
+      this.showResult(state, userAnswer);
     };
     changeView(gameScreen.element);
-    gameScreen.startTimer();
+    gameScreen.initGame();
   }
-  //
-  // static showResult() {
-  // }
+
+  static showResult(state, userAnswer) {
+    const results = new ResultView(state, userAnswer);
+    results.replayGameHandler = () => {
+      this.showWelcome();
+    };
+    changeView(results.element);
+  }
 
 }
