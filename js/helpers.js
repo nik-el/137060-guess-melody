@@ -1,4 +1,4 @@
-import {GAME_RULE} from './data/game';
+import {GAME_RULE} from './game/game';
 
 const getPercentage = (commonScores, position) => {
   return (((commonScores.length) - position) / (commonScores.length) * 100).toFixed(0);

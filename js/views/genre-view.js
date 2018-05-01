@@ -1,5 +1,4 @@
 import AbstractView from './abstract-view';
-import Header from './header-view';
 
 export default class GenreScreenView extends AbstractView {
   constructor(state, currentLevelData) {

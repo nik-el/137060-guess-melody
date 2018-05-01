@@ -1,5 +1,5 @@
-import GameModel from './data/game-model';
-import GamePresenter from './data/game-presenter';
+import GameModel from './game/game-model';
+import GamePresenter from './game/game-presenter';
 
 import WelcomeView from './views/welcome-view';
 import ResultView from './views/result-view';
