@@ -15,7 +15,7 @@ export default class ArtistScreenView extends AbstractView {
          <h2 class="title main-title">${this.currentLevelData.question}</h2>
           <div class="player-wrapper">
             <div class="player">
-              <audio src="${this.currentLevelData.src}" class="audio-track"></audio>
+              <audio src="${this.currentLevelData.src}"></audio>
               <button class="player-control"></button>
               <div class="player-track">
                 <span class="player-status"></span>
@@ -39,7 +39,7 @@ export default class ArtistScreenView extends AbstractView {
               <img 
                 class="main-answer-preview"
                 src="${answer.image.url}"
-                alt="${answer.artist}" 
+                alt="${answer.title}" 
                 width="${answer.image.width}" 
                 height="${answer.image.height}" 
               >
@@ -53,17 +53,18 @@ export default class ArtistScreenView extends AbstractView {
   sendAnswerClickHandler() {}
 
   bind() {
-    const audioControl = this.element.querySelector(`.player-control`);
-    const audioTrack = this.element.querySelector(`.audio-track`);
+    const controlButton = this.element.querySelector(`.player .player-control`);
 
-    audioControl.addEventListener(`click`, () => {
-      if (audioControl.classList.contains(`player-control--pause`)) {
-        audioControl.classList.remove(`player-control--pause`);
-        audioTrack.pause();
+    controlButton.addEventListener(`click`, (event) => {
+      event.preventDefault();
+
+      if (!controlButton.previousElementSibling.paused) {
+        controlButton.previousElementSibling.pause();
       } else {
-        audioControl.classList.add(`player-control--pause`);
-        audioTrack.play();
+        controlButton.previousElementSibling.play();
       }
+
+      controlButton.classList.toggle(`player-control--pause`);
     });
 
     const artistsAnswer = this.element.querySelectorAll(`.main-answer-wrapper`);

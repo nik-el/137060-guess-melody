@@ -2,7 +2,7 @@ import GameModel from './game/game-model';
 import GamePresenter from './game/game-presenter';
 import WelcomeView from './views/welcome-view';
 import ResultView from './views/result-view';
-import {adaptServerData} from './game/game-adapter';
+import {adaptData} from './game/game-adapter';
 
 const appContent = document.querySelector(`.app`);
 
@@ -30,7 +30,7 @@ export default class Application {
     window.fetch(`https://es.dump.academy/guess-melody/questions`)
         .then(checkStatus)
         .then((response) => response.json())
-        .then((data)=>adaptServerData(data))
+        .then((data)=>adaptData(data))
         .then((data)=>Application.showWelcome(data));
   }
 

@@ -28,7 +28,7 @@ export default class GenreScreenView extends AbstractView {
           `<div class="genre-answer">
               <div class="player-wrapper">
                 <div class="player">
-                  <audio src="${src}" class="audio-track"></audio>
+                  <audio src="${src}"></audio>
                   <button class="player-control player-control--play"></button>
                   <div class="player-track">
                     <span class="player-status"></span>
@@ -56,6 +56,15 @@ export default class GenreScreenView extends AbstractView {
     form.reset();
   }
 
+  stopAllTracks() {
+    const tracks = this._element.querySelectorAll(`audio`);
+
+    for (const track of tracks) {
+      track.nextElementSibling.classList.remove(`player-control--pause`);
+      track.pause();
+    }
+  }
+
   sendAnswerClickHandler() {}
 
   bind() {
@@ -63,7 +72,24 @@ export default class GenreScreenView extends AbstractView {
     const genresAnswer = this.element.querySelectorAll(`.genre-answer input`);
     const sendAnswer = this.element.querySelector(`.genre-answer-send`);
 
+    const controlButtons = this.element.querySelectorAll(`.player .player-control`);
+
     this._resetForm(sendAnswer, genreForm);
+
+    for (const button of controlButtons) {
+      button.addEventListener(`click`, (event) => {
+        event.preventDefault();
+
+        if (!button.previousElementSibling.paused) {
+          button.previousElementSibling.pause();
+        } else {
+          this.stopAllTracks();
+          button.previousElementSibling.play();
+        }
+
+        button.classList.toggle(`player-control--pause`);
+      });
+    }
 
     genresAnswer.forEach((answer) => {
       answer.addEventListener(`click`, () => {

@@ -5,7 +5,7 @@ const QuestionType = {
 
 const newLevels = {};
 
-export const adaptServerData = (data) => {
+export const adaptData = (data) => {
   data.forEach((question, index) => {
 
     if (data[index + 1]) {
@@ -22,9 +22,8 @@ export const adaptServerData = (data) => {
 
     newLevels[`${index}`] = question;
   });
-  newLevels.result = {type: `result`};
 
-  console.log(newLevels);
+  newLevels.result = {type: `result`};
   return newLevels;
 };
 
