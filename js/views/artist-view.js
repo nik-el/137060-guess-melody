@@ -1,7 +1,7 @@
 import AbstractView from './abstract-view';
 
 export default class ArtistScreenView extends AbstractView {
-  constructor(currentLevelData) {
+  constructor(state, currentLevelData) {
     super();
 
     this.state = state;
