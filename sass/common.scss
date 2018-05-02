@@ -43,6 +43,10 @@ body {
 
 .screen{
   height: inherit;
+
+  & > div {
+    height: inherit;
+  }
 }
 
 .copyright {

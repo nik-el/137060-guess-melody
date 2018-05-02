@@ -1,6 +1,5 @@
 const getElementFromTemplate = (screenTemplate) => {
-  const newScreen = document.createElement(`section`);
-  newScreen.className = `screen`;
+  const newScreen = document.createElement(`div`);
   newScreen.innerHTML = screenTemplate;
   return newScreen;
 };
