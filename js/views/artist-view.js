@@ -11,7 +11,6 @@ export default class ArtistScreenView extends AbstractView {
   get template() {
     return (`
       <section class="main main--level main--level-artist">
-     
         <div class="main-wrap">
          <h2 class="title main-title">Кто исполняет эту песню?</h2>
           <div class="player-wrapper">

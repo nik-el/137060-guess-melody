@@ -1,6 +1,5 @@
 import {getPercentage, getCorrectPlayersText} from '../helpers';
-
-const AVAILABLE_MISTAKES = 3;
+import {GAME_RULE} from '../game/game-data';
 
 const GAME_OVER = {
   BY_TIME: `Время вышло! Вы не успели отгадать все мелодии`,
@@ -16,7 +15,7 @@ export default (playerResult, resultsArray) => {
     return null;
   }
 
-  if (playerResult.mistakes >= AVAILABLE_MISTAKES) {
+  if (playerResult.mistakes >= GAME_RULE.AVAILABLE_MISTAKES) {
     return GAME_OVER.BY_ATTEMPTS;
   }
 

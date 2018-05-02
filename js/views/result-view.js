@@ -10,8 +10,7 @@ import {
   getCorrectFastAnswerText,
   getCorrectMistakesText,
 } from '../helpers';
-
-const AVAILABLE_MISTAKES = 3;
+import {GAME_RULE} from '../game/game-data';
 
 export default class resultScreenView extends AbstractView {
   constructor(state, userAnswers) {
@@ -38,19 +37,19 @@ export default class resultScreenView extends AbstractView {
 
   getResultTemplate() {
     let textResult = ``;
-    if (this.state.mistakes >= AVAILABLE_MISTAKES) {
-      textResult =
-        `<h2 class="title">Какая жалость!</h2>
-      <div class="main-stat">${getTextResult(this.state, [])}</div>
-      <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
-    `;
+    if (this.state.mistakes >= GAME_RULE.AVAILABLE_MISTAKES) {
+      textResult = `
+        <h2 class="title">Какая жалость!</h2>
+        <div class="main-stat">${getTextResult(this.state, [])}</div>
+        <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
+      `;
       return textResult;
     } else if (!this.state.time) {
       textResult = `
-      <h2 class="title">Увы и ах!</h2>
-      <div class="main-stat">${getTextResult(this.state, [])}</div>
-      <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
-    `;
+        <h2 class="title">Увы и ах!</h2>
+        <div class="main-stat">${getTextResult(this.state, [])}</div>
+        <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
+      `;
       return textResult;
     } else {
       const currentTime = getTimerFormat(this.state.time);
@@ -61,16 +60,18 @@ export default class resultScreenView extends AbstractView {
       const textFastAnswer = getCorrectFastAnswerText(getFastAnswers(this.userAnswers));
       const textMistakes = getCorrectMistakesText(this.state.mistakes);
 
-      textResult = `<h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">
-      За ${textMinutes}
-      и  ${textSeconds}
-        <br>вы&nbsp;набрали ${textScore}
-        (${textFastAnswer})
-        <br>совершив ${textMistakes}</div>
-      <span class="main-comparison">${getTextResult(this.state, [])}</span>
-      <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
-    `;
+      textResult = `
+        <h2 class="title">Вы настоящий меломан!</h2>
+        <div class="main-stat">
+          За ${textMinutes}
+          и  ${textSeconds}
+          <br>вы&nbsp;набрали ${textScore}
+          (${textFastAnswer})
+          <br>совершив ${textMistakes}
+        </div>
+        <span class="main-comparison">${getTextResult(this.state, [])}</span>
+        <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
+      `;
       return textResult;
     }
   }
@@ -80,7 +81,7 @@ export default class resultScreenView extends AbstractView {
 
   bind() {
     const replayGame = this.element.querySelector(`.main-replay`);
-    replayGame.addEventListener(`click`, this.replayGameHandler);
+    replayGame.addEventListener(`click`, () => this.replayGameHandler());
   }
 }
 

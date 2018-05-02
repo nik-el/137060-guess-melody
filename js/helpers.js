@@ -1,4 +1,4 @@
-import {GAME_RULE} from './game/game';
+import {GAME_RULE} from './game/game-data';
 
 const getPercentage = (commonScores, position) => {
   return (((commonScores.length) - position) / (commonScores.length) * 100).toFixed(0);
@@ -43,9 +43,6 @@ const getCorrectPlayersText = getCorrectNoun([`игрока`, `игроков`, 
 
 const getTimerFormat = (time) => {
   let minutes = Math.floor(time / 60);
-  if (minutes < 10) {
-    minutes = `0` + minutes;
-  }
 
   let seconds = time - minutes * 60;
   if (seconds < 10) {

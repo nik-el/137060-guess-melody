@@ -1,10 +1,10 @@
 import levels from './levels';
-import {INITIAL_STATE} from './game';
-import {GAME_RULE} from './game';
+import {INITIAL_STATE} from './game-data';
+import {GAME_RULE} from './game-data';
 
 class GameModel {
   constructor() {
-    this.levels = levels;
+    this.levels = Object.freeze(levels);
     this.userAnswers = [];
     this.restart();
   }
@@ -14,7 +14,7 @@ class GameModel {
   }
 
   restart() {
-    this._state = JSON.parse(JSON.stringify(INITIAL_STATE));
+    this._state = INITIAL_STATE;
     this.userAnswers = [];
   }
 

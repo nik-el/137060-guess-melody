@@ -20,7 +20,7 @@ export default class Application {
   static showWelcome() {
     const welcome = new WelcomeView();
     welcome.startNewGameHandler = () => {
-      this.showGame();
+      Application.showGame();
     };
 
     changeView(welcome.element);
@@ -29,7 +29,7 @@ export default class Application {
   static showGame() {
     const gameScreen = new GamePresenter(new GameModel());
     gameScreen.isOver = (state, userAnswer) => {
-      this.showResult(state, userAnswer);
+      Application.showResult(state, userAnswer);
     };
     changeView(gameScreen.element);
     gameScreen.initGame();
@@ -38,7 +38,7 @@ export default class Application {
   static showResult(state, userAnswer) {
     const results = new ResultView(state, userAnswer);
     results.replayGameHandler = () => {
-      this.showWelcome();
+      Application.showWelcome();
     };
     changeView(results.element);
   }

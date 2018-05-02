@@ -1,9 +1,6 @@
 import AbstractView from './abstract-view';
 
 export default class WelcomeScreenView extends AbstractView {
-  constructor() {
-    super();
-  }
 
   get template() {
     return `
