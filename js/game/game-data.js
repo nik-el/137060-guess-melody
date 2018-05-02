@@ -5,8 +5,8 @@ export const INITIAL_STATE = {
   level: `0`,
 };
 
-export const GAME_RULE = Object.freeze({
-  AVAILABLE_MISTAKES: 3,
+export const GameRules = Object.freeze({
+  AVAILABLE_MISTAKES: 2,
   FAST_TIME: 30,
   MIN_ANSWERS: 10,
 });

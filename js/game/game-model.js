@@ -1,5 +1,5 @@
 import {INITIAL_STATE} from './game-data';
-import {GAME_RULE} from './game-data';
+import {GameRules} from './game-data';
 
 class GameModel {
   constructor(levels) {
@@ -22,7 +22,7 @@ class GameModel {
   }
 
   isOver() {
-    return this._state.mistakes >= GAME_RULE.AVAILABLE_MISTAKES;
+    return this._state.mistakes > GameRules.AVAILABLE_MISTAKES;
   }
 
   tick() {

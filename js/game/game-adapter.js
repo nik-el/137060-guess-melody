@@ -21,16 +21,3 @@ export const adaptData = (data) => {
   newLevels.result = {type: `result`};
   return newLevels;
 };
-
-// const adaptArtistAnswers = (answers) =>
-//   answers.map((answer) => ({
-//     name: answer.title,
-//     pic: answer.image.url,
-//     isCorrect: answer.isCorrect
-//   }));
-//
-// const adaptGenreAnswers = (answers, genre) =>
-//   answers.map((answer) => ({
-//     audio: answer.src,
-//     isCorrect: answer.genre === genre
-//   }));

@@ -10,7 +10,7 @@ import {
   getCorrectFastAnswerText,
   getCorrectMistakesText,
 } from '../helpers';
-import {GAME_RULE} from '../game/game-data';
+import {GameRules} from '../game/game-data';
 
 export default class resultScreenView extends AbstractView {
   constructor(state, userAnswers) {
@@ -37,7 +37,7 @@ export default class resultScreenView extends AbstractView {
 
   getResultTemplate() {
     let textResult = ``;
-    if (this.state.mistakes >= GAME_RULE.AVAILABLE_MISTAKES) {
+    if (this.state.mistakes > GameRules.AVAILABLE_MISTAKES) {
       textResult = `
         <h2 class="title">Какая жалость!</h2>
         <div class="main-stat">${getTextResult(this.state, [])}</div>
