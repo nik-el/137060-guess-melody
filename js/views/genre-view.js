@@ -12,7 +12,7 @@ export default class GenreScreenView extends AbstractView {
     return (`
       <section class="main main--level main--level-genre">
       <div class="main-wrap">
-        <h2 class="title">Выберите ${this.currentLevelData.genre} треки</h2>
+        <h2 class="title">${this.currentLevelData.question}</h2>
         <form class="genre">
           ${this.answers}
         </form>
@@ -78,5 +78,7 @@ export default class GenreScreenView extends AbstractView {
             .map(({value}) => value);
       this.sendAnswerClickHandler(checkedAnswersValue);
     });
+
+
   }
 }

@@ -2,6 +2,7 @@ import GameModel from './game/game-model';
 import GamePresenter from './game/game-presenter';
 import WelcomeView from './views/welcome-view';
 import ResultView from './views/result-view';
+import {adaptServerData} from './game/game-adapter';
 
 const appContent = document.querySelector(`.app`);
 
@@ -25,18 +26,25 @@ const checkStatus = (response) => {
 };
 
 export default class Application {
+  static start() {
+    window.fetch(`https://es.dump.academy/guess-melody/questions`)
+        .then(checkStatus)
+        .then((response) => response.json())
+        .then((data)=>adaptServerData(data))
+        .then((data)=>Application.showWelcome(data));
+  }
 
-  static showWelcome() {
+  static showWelcome(data) {
     const welcome = new WelcomeView();
     welcome.startNewGameHandler = () => {
-      Application.showGame();
+      Application.showGame(data);
     };
 
     changeView(welcome.element);
   }
 
-  static showGame() {
-    const gameScreen = new GamePresenter(new GameModel());
+  static showGame(data) {
+    const gameScreen = new GamePresenter(new GameModel(data));
     gameScreen.isOver = (state, userAnswer) => {
       Application.showResult(state, userAnswer);
     };

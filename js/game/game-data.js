@@ -2,7 +2,7 @@ export const INITIAL_STATE = {
   mistakes: 0,
   time: 300,
   score: 0,
-  level: `artist-1`,
+  level: `0`,
 };
 
 export const GAME_RULE = Object.freeze({

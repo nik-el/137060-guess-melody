@@ -1,7 +1,7 @@
 import AbstractView from './abstract-view';
 
 export default class ArtistScreenView extends AbstractView {
-  constructor(state, currentLevelData) {
+  constructor(currentLevelData) {
     super();
 
     this.state = state;
@@ -12,10 +12,10 @@ export default class ArtistScreenView extends AbstractView {
     return (`
       <section class="main main--level main--level-artist">
         <div class="main-wrap">
-         <h2 class="title main-title">Кто исполняет эту песню?</h2>
+         <h2 class="title main-title">${this.currentLevelData.question}</h2>
           <div class="player-wrapper">
             <div class="player">
-              <audio src="${this.currentLevelData.track}" class="audio-track"></audio>
+              <audio src="${this.currentLevelData.src}" class="audio-track"></audio>
               <button class="player-control"></button>
               <div class="player-track">
                 <span class="player-status"></span>
@@ -38,12 +38,12 @@ export default class ArtistScreenView extends AbstractView {
             <label class="main-answer" for="artist-${index}">
               <img 
                 class="main-answer-preview"
-                src="${answer.img}"
+                src="${answer.image.url}"
                 alt="${answer.artist}" 
-                width="134" 
-                height="134"
+                width="${answer.image.width}" 
+                height="${answer.image.height}" 
               >
-              ${answer.artist}
+              ${answer.title}
             </label>
           </div>
         `)
