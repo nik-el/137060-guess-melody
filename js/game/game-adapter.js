@@ -1,8 +1,3 @@
-const QuestionType = {
-  GENRE: `genre`,
-  ARTIST: `artist`
-};
-
 const newLevels = {};
 
 export const adaptData = (data) => {
