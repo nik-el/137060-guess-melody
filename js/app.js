@@ -4,7 +4,7 @@ import WelcomeView from './views/welcome-view';
 import ResultView from './views/result-view';
 import ErrorView from './views/error-view';
 import SplashScreen from './views/splash-view';
-import {adaptData} from './game/game-adapter';
+import Loader from './loader';
 
 const appContent = document.querySelector(`.app`);
 
@@ -19,23 +19,12 @@ const changeView = (node) => {
   appContent.insertBefore(newScreenContent, appContent.firstChild);
 };
 
-const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-};
-
 export default class Application {
   static start() {
     const splash = new SplashScreen();
     changeView(splash.element);
-    window.fetch(`https://es.dump.academy/guess-melody/questions`)
-        .then(checkStatus)
-        .then((response) => response.json())
-        .then((data)=>adaptData(data))
-        .then((data)=>Application.showWelcome(data))
+    Loader.loadData()
+        .then(Application.showWelcome)
         .catch(Application.showError);
   }
 
@@ -44,21 +33,28 @@ export default class Application {
     welcome.startNewGameHandler = () => {
       Application.showGame(data);
     };
-
     changeView(welcome.element);
   }
 
   static showGame(data) {
     const gameScreen = new GamePresenter(new GameModel(data));
-    gameScreen.isOver = (state, userAnswer) => {
-      Application.showResult(state, userAnswer);
+
+    gameScreen.isOver = (state, userAnswer, successGame) => {
+      if (successGame) {
+        Loader.saveResults(state)
+            .then(() => Loader.loadResults())
+            .then((results) => Application.showResult(state, userAnswer, results))
+            .catch(Application.showError);
+      } else {
+        Application.showResult(state, userAnswer);
+      }
     };
     changeView(gameScreen.element);
     gameScreen.initGame();
   }
 
-  static showResult(state, userAnswer) {
-    const results = new ResultView(state, userAnswer);
+  static showResult(state, userAnswer, resultsAnswers) {
+    const results = new ResultView(state, userAnswer, resultsAnswers);
     results.replayGameHandler = () => {
       Application.start();
     };

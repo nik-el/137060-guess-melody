@@ -1,5 +1,4 @@
 import AbstractView from './abstract-view';
-import getScore from '../service/getScore';
 import getTextResult from '../service/getTextResult';
 import {
   getTimerFormat,
@@ -13,10 +12,11 @@ import {
 import {GameRules} from '../game/game-data';
 
 export default class resultScreenView extends AbstractView {
-  constructor(state, userAnswers) {
+  constructor(state, userAnswers, resultsAnswers) {
     super();
 
     this.state = state;
+    this.resultsAnswers = resultsAnswers;
     this.userAnswers = userAnswers;
   }
 
@@ -29,10 +29,6 @@ export default class resultScreenView extends AbstractView {
       ${this.getResultTemplate()}
     </section>
   `);
-  }
-
-  get score() {
-    return getScore(this.userAnswers, this.state.mistakes);
   }
 
   getResultTemplate() {
@@ -56,7 +52,7 @@ export default class resultScreenView extends AbstractView {
 
       const textMinutes = getCorrectMinutesText(currentTime.minutes);
       const textSeconds = getCorrectSecondsText(currentTime.seconds);
-      const textScore = getCorrectScoreText(this.score);
+      const textScore = getCorrectScoreText(this.state.score);
       const textFastAnswer = getCorrectFastAnswerText(getFastAnswers(this.userAnswers));
       const textMistakes = getCorrectMistakesText(this.state.mistakes);
 
@@ -69,7 +65,7 @@ export default class resultScreenView extends AbstractView {
           (${textFastAnswer})
           <br>совершив ${textMistakes}
         </div>
-        <span class="main-comparison">${getTextResult(this.state, [])}</span>
+        <span class="main-comparison">${getTextResult(this.state, this.resultsAnswers)}</span>
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       `;
       return textResult;

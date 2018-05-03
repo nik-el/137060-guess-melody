@@ -4,6 +4,7 @@ import {GameRules} from './game-data';
 class GameModel {
   constructor(levels) {
     this.levels = levels;
+    this.status = true;
     this.userAnswers = [];
     this.restart();
   }
@@ -37,6 +38,7 @@ class GameModel {
 
   changeLevel() {
     if (this.isOver()) {
+      this.status = false;
       this._state.level = `result`;
     } else {
       this._state.level = this.levels[this._state.level].next;

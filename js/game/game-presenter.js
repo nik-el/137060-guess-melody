@@ -1,6 +1,7 @@
 import HeaderView from '../views/header-view';
 import ArtistView from '../views/artist-view';
 import GenreView from '../views/genre-view';
+import getScore from '../service/getScore';
 
 class GamePresenter {
   constructor(model) {
@@ -19,11 +20,8 @@ class GamePresenter {
   }
 
   get game() {
-    this.model.getc
     const type = this.model.currentLevelData.type;
     let game;
-
-    console.log(type);
 
     switch (type) {
       case `artist`:
@@ -44,6 +42,7 @@ class GamePresenter {
   startGameTimer() {
     this._interval = setInterval(() => {
       if (this.model.state.time <= 0) {
+        this.model.status = false;
         this.stopGame();
       }
       this.model.tick();
@@ -70,7 +69,10 @@ class GamePresenter {
   stopGame() {
     this.stopGameTimer();
     this.stopLevelTimer();
-    this.isOver(this.model.state, this.model.userAnswers);
+    if (this.model.status) {
+      this.model.state.score = getScore(this.model.userAnswers, this.model.state.mistakes);
+    }
+    this.isOver(this.model.state, this.model.userAnswers, this.model.status, this.model.state.score);
   }
 
   updateHeader() {
@@ -132,7 +134,6 @@ class GamePresenter {
       this.nextGame();
     } else {
       this.stopGame();
-      this.isOver(this.model.state, this.model.userAnswers);
     }
   }
 

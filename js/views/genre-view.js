@@ -24,8 +24,8 @@ export default class GenreScreenView extends AbstractView {
 
   get answers() {
     return this.currentLevelData.answers
-        .map(({src}, index) => (
-          `<div class="genre-answer">
+        .map(({src, isCorrect}, index) => (
+          `<div class="genre-answer ${isCorrect}-answer" >
               <div class="player-wrapper">
                 <div class="player">
                   <audio src="${src}" class="audio-${index}"></audio>

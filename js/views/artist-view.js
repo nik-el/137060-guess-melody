@@ -33,7 +33,7 @@ export default class ArtistScreenView extends AbstractView {
   get answers() {
     return this.currentLevelData.answers
         .map((answer, index) => `
-          <div class="main-answer-wrapper">
+          <div class="main-answer-wrapper ${answer.isCorrect}-answer">
             <input class="main-answer-r" type="radio" id="artist-${index}" name="answer" value="${index}">
             <label class="main-answer" for="artist-${index}">
               <img 
