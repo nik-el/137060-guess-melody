@@ -47,6 +47,11 @@
   margin: 0 0 1em;
 }
 
+.error-text {
+  color: #A10000;
+  font: 300 2em $font;
+}
+
 @import "--level/main--level";
 @import "--result/main--result";
 @import "--welcome/main--welcome";

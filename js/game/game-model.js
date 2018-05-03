@@ -13,7 +13,7 @@ class GameModel {
   }
 
   restart() {
-    this._state = INITIAL_STATE;
+    this._state = JSON.parse(JSON.stringify(INITIAL_STATE));
     this.userAnswers = [];
   }
 

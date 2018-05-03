@@ -28,8 +28,8 @@ export default class GenreScreenView extends AbstractView {
           `<div class="genre-answer">
               <div class="player-wrapper">
                 <div class="player">
-                  <audio src="${src}"></audio>
-                  <button class="player-control player-control--play"></button>
+                  <audio src="${src}" class="audio-${index}"></audio>
+                  <button class="player-control player-control-${index} player-control--play "></button>
                   <div class="player-track">
                     <span class="player-status"></span>
                   </div>
@@ -56,11 +56,14 @@ export default class GenreScreenView extends AbstractView {
     form.reset();
   }
 
-  stopAllTracks() {
-    const tracks = this._element.querySelectorAll(`audio`);
+  _stopAllTracks() {
+    const players = this.element.querySelectorAll(`.player`);
 
-    for (const track of tracks) {
-      track.nextElementSibling.classList.remove(`player-control--pause`);
+    for (const player of players) {
+      const control = player.querySelector(`.player-control`);
+      control.classList.remove(`player-control--pause`);
+
+      const track = player.querySelector(`audio`);
       track.pause();
     }
   }
@@ -73,23 +76,24 @@ export default class GenreScreenView extends AbstractView {
     const sendAnswer = this.element.querySelector(`.genre-answer-send`);
 
     const controlButtons = this.element.querySelectorAll(`.player .player-control`);
+    const tracks = this.element.querySelectorAll(`audio`);
 
     this._resetForm(sendAnswer, genreForm);
 
-    for (const button of controlButtons) {
+    controlButtons.forEach((button, index) => {
       button.addEventListener(`click`, (event) => {
         event.preventDefault();
 
-        if (!button.previousElementSibling.paused) {
-          button.previousElementSibling.pause();
+        if (!tracks[index].paused) {
+          tracks[index].pause();
         } else {
-          this.stopAllTracks();
-          button.previousElementSibling.play();
+          this._stopAllTracks();
+          tracks[index].play();
         }
 
         button.classList.toggle(`player-control--pause`);
       });
-    }
+    });
 
     genresAnswer.forEach((answer) => {
       answer.addEventListener(`click`, () => {

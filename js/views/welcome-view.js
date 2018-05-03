@@ -5,12 +5,8 @@ import {GameRules, INITIAL_STATE} from '../game/game-data';
 const textMistakesTime = getCorrectMistakesTimeText(GameRules.AVAILABLE_MISTAKES);
 const initialTime = getTimerFormat(INITIAL_STATE.time);
 
-let timeString = ``;
-if (initialTime.seconds !== 0) {
-  timeString = `${getCorrectMinutesText(initialTime.minutes)} и ${getCorrectSecondsText(initialTime.seconds)}`;
-} else {
-  timeString = `${getCorrectMinutesText(initialTime.minutes)}`;
-}
+const textMinutes = getCorrectMinutesText(initialTime.minutes);
+const textSeconds = initialTime.seconds ? getCorrectSecondsText(initialTime.seconds) : ``;
 
 export default class WelcomeScreenView extends AbstractView {
 
@@ -21,7 +17,7 @@ export default class WelcomeScreenView extends AbstractView {
         <button class="main-play">Начать игру</button>
         <h2 class="title main-title">Правила игры</h2>
         <p class="text main-text">
-          Правила просты&nbsp;— за&nbsp;${timeString} ответить на все вопросы.<br>
+          Правила просты&nbsp;— за&nbsp;${textMinutes} ${textSeconds} ответить на все вопросы.<br>
           Ошибиться можно ${textMistakesTime}.<br>
           Удачи!
         </p>

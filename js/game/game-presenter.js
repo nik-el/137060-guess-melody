@@ -19,8 +19,11 @@ class GamePresenter {
   }
 
   get game() {
+    this.model.getc
     const type = this.model.currentLevelData.type;
     let game;
+
+    console.log(type);
 
     switch (type) {
       case `artist`:

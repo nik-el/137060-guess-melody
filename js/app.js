@@ -2,6 +2,8 @@ import GameModel from './game/game-model';
 import GamePresenter from './game/game-presenter';
 import WelcomeView from './views/welcome-view';
 import ResultView from './views/result-view';
+import ErrorView from './views/error-view';
+import SplashScreen from './views/splash-view';
 import {adaptData} from './game/game-adapter';
 
 const appContent = document.querySelector(`.app`);
@@ -27,11 +29,14 @@ const checkStatus = (response) => {
 
 export default class Application {
   static start() {
+    const splash = new SplashScreen();
+    changeView(splash.element);
     window.fetch(`https://es.dump.academy/guess-melody/questions`)
         .then(checkStatus)
         .then((response) => response.json())
         .then((data)=>adaptData(data))
-        .then((data)=>Application.showWelcome(data));
+        .then((data)=>Application.showWelcome(data))
+        .catch(Application.showError);
   }
 
   static showWelcome(data) {
@@ -55,9 +60,14 @@ export default class Application {
   static showResult(state, userAnswer) {
     const results = new ResultView(state, userAnswer);
     results.replayGameHandler = () => {
-      Application.showWelcome();
+      Application.start();
     };
     changeView(results.element);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    changeView(errorView.element);
   }
 
 }

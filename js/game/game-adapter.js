@@ -1,8 +1,5 @@
-const newLevels = {};
-
 export const adaptData = (data) => {
-  data.forEach((question, index) => {
-
+  data.map((question, index) => {
     if (data[index + 1]) {
       question.next = `${index + 1}`;
     } else {
@@ -15,9 +12,9 @@ export const adaptData = (data) => {
       }
     }
 
-    newLevels[`${index}`] = question;
+    data[`${index}`] = question;
   });
 
-  newLevels.result = {type: `result`};
-  return newLevels;
+  data.result = {type: `result`};
+  return data;
 };

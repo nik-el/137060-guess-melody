@@ -54,14 +54,15 @@ export default class ArtistScreenView extends AbstractView {
 
   bind() {
     const controlButton = this.element.querySelector(`.player .player-control`);
+    const track = this.element.querySelector(`audio`);
 
     controlButton.addEventListener(`click`, (event) => {
       event.preventDefault();
 
-      if (!controlButton.previousElementSibling.paused) {
-        controlButton.previousElementSibling.pause();
+      if (!track.paused) {
+        track.pause();
       } else {
-        controlButton.previousElementSibling.play();
+        track.play();
       }
 
       controlButton.classList.toggle(`player-control--pause`);
