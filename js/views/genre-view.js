@@ -108,7 +108,5 @@ export default class GenreScreenView extends AbstractView {
             .map(({value}) => value);
       this.sendAnswerClickHandler(checkedAnswersValue);
     });
-
-
   }
 }

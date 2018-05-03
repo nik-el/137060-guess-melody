@@ -72,7 +72,6 @@ export default class resultScreenView extends AbstractView {
     }
   }
 
-
   replayGameHandler() {}
 
   bind() {
