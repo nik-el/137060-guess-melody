@@ -11,12 +11,11 @@ export default class ArtistScreenView extends AbstractView {
   get template() {
     return (`
       <section class="main main--level main--level-artist">
-     
         <div class="main-wrap">
-         <h2 class="title main-title">Кто исполняет эту песню?</h2>
+         <h2 class="title main-title">${this.currentLevelData.question}</h2>
           <div class="player-wrapper">
             <div class="player">
-              <audio src="${this.currentLevelData.track}" class="audio-track"></audio>
+              <audio src="${this.currentLevelData.src}"></audio>
               <button class="player-control"></button>
               <div class="player-track">
                 <span class="player-status"></span>
@@ -34,17 +33,17 @@ export default class ArtistScreenView extends AbstractView {
   get answers() {
     return this.currentLevelData.answers
         .map((answer, index) => `
-          <div class="main-answer-wrapper">
+          <div class="main-answer-wrapper ${answer.isCorrect}-answer">
             <input class="main-answer-r" type="radio" id="artist-${index}" name="answer" value="${index}">
             <label class="main-answer" for="artist-${index}">
               <img 
                 class="main-answer-preview"
-                src="${answer.img}"
-                alt="${answer.artist}" 
-                width="134" 
-                height="134"
+                src="${answer.image.url}"
+                alt="${answer.title}" 
+                width="${answer.image.width}" 
+                height="${answer.image.height}" 
               >
-              ${answer.artist}
+              ${answer.title}
             </label>
           </div>
         `)
@@ -54,17 +53,19 @@ export default class ArtistScreenView extends AbstractView {
   sendAnswerClickHandler() {}
 
   bind() {
-    const audioControl = this.element.querySelector(`.player-control`);
-    const audioTrack = this.element.querySelector(`.audio-track`);
+    const controlButton = this.element.querySelector(`.player .player-control`);
+    const track = this.element.querySelector(`audio`);
 
-    audioControl.addEventListener(`click`, () => {
-      if (audioControl.classList.contains(`player-control--pause`)) {
-        audioControl.classList.remove(`player-control--pause`);
-        audioTrack.pause();
+    controlButton.addEventListener(`click`, (event) => {
+      event.preventDefault();
+
+      if (!track.paused) {
+        track.pause();
       } else {
-        audioControl.classList.add(`player-control--pause`);
-        audioTrack.play();
+        track.play();
       }
+
+      controlButton.classList.toggle(`player-control--pause`);
     });
 
     const artistsAnswer = this.element.querySelectorAll(`.main-answer-wrapper`);

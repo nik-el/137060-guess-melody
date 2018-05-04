@@ -1,6 +1,7 @@
 import HeaderView from '../views/header-view';
 import ArtistView from '../views/artist-view';
 import GenreView from '../views/genre-view';
+import getScore from '../service/getScore';
 
 class GamePresenter {
   constructor(model) {
@@ -29,8 +30,6 @@ class GamePresenter {
       case `genre`:
         game = new GenreView(this.model.state, this.model.currentLevelData);
         break;
-      default:
-        throw new Error(`Wrong game level type`);
     }
     return game;
   }
@@ -43,6 +42,7 @@ class GamePresenter {
   startGameTimer() {
     this._interval = setInterval(() => {
       if (this.model.state.time <= 0) {
+        this.model.status = false;
         this.stopGame();
       }
       this.model.tick();
@@ -69,7 +69,10 @@ class GamePresenter {
   stopGame() {
     this.stopGameTimer();
     this.stopLevelTimer();
-    this.isOver(this.model.state, this.model.userAnswers);
+    if (this.model.status) {
+      this.model.state.score = getScore(this.model.userAnswers, this.model.state.mistakes);
+    }
+    this.isOver(this.model.state, this.model.userAnswers, this.model.status, this.model.state.score);
   }
 
   updateHeader() {
@@ -123,16 +126,17 @@ class GamePresenter {
       isCorrect: isCorrectAnswer,
       time: this.levelTime,
     });
+
     this.model.changeLevel();
+
     if (this.model.state.level !== `result`) {
       this.stopLevelTimer();
       this.nextGame();
     } else {
       this.stopGame();
-      this.isOver(this.model.state, this.model.userAnswers);
     }
-
   }
+
   isOver() {}
 }
 

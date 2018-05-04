@@ -1,13 +1,11 @@
-const MIN_ANSWERS = 10;
-const FAST_TIME = 30;
-const AVAILABLE_MISTAKES = 3;
+import {GameRules} from '../game/game-data';
 
 export default (answers, mistakes) => {
   if (typeof mistakes !== `number` || !Array.isArray(answers)) {
     return null;
   }
 
-  if (mistakes >= AVAILABLE_MISTAKES || answers.length < MIN_ANSWERS) {
+  if (mistakes > GameRules.AVAILABLE_MISTAKES || answers.length < GameRules.MIN_ANSWERS) {
     return -1;
   }
   let result = answers
@@ -17,9 +15,9 @@ export default (answers, mistakes) => {
           return acc - 2;
         }
 
-        if (answer.time < FAST_TIME) {
+        if (answer.time < GameRules.FAST_TIME) {
           return acc + 2;
-        } else if (answer.time >= FAST_TIME) {
+        } else if (answer.time >= GameRules.FAST_TIME) {
           return acc + 1;
         }
 

@@ -12,7 +12,7 @@ export default class GenreScreenView extends AbstractView {
     return (`
       <section class="main main--level main--level-genre">
       <div class="main-wrap">
-        <h2 class="title">Выберите ${this.currentLevelData.genre} треки</h2>
+        <h2 class="title">${this.currentLevelData.question}</h2>
         <form class="genre">
           ${this.answers}
         </form>
@@ -24,12 +24,12 @@ export default class GenreScreenView extends AbstractView {
 
   get answers() {
     return this.currentLevelData.answers
-        .map(({src}, index) => (
-          `<div class="genre-answer">
+        .map(({src, isCorrect}, index) => (
+          `<div class="genre-answer ${isCorrect}-answer" >
               <div class="player-wrapper">
                 <div class="player">
-                  <audio src="${src}" class="audio-track"></audio>
-                  <button class="player-control player-control--play"></button>
+                  <audio src="${src}" class="audio-${index}"></audio>
+                  <button class="player-control player-control-${index} player-control--play "></button>
                   <div class="player-track">
                     <span class="player-status"></span>
                   </div>
@@ -56,6 +56,18 @@ export default class GenreScreenView extends AbstractView {
     form.reset();
   }
 
+  _stopAllTracks() {
+    const players = this.element.querySelectorAll(`.player`);
+
+    for (const player of players) {
+      const control = player.querySelector(`.player-control`);
+      control.classList.remove(`player-control--pause`);
+
+      const track = player.querySelector(`audio`);
+      track.pause();
+    }
+  }
+
   sendAnswerClickHandler() {}
 
   bind() {
@@ -63,7 +75,25 @@ export default class GenreScreenView extends AbstractView {
     const genresAnswer = this.element.querySelectorAll(`.genre-answer input`);
     const sendAnswer = this.element.querySelector(`.genre-answer-send`);
 
+    const controlButtons = this.element.querySelectorAll(`.player .player-control`);
+    const tracks = this.element.querySelectorAll(`audio`);
+
     this._resetForm(sendAnswer, genreForm);
+
+    controlButtons.forEach((button, index) => {
+      button.addEventListener(`click`, (event) => {
+        event.preventDefault();
+
+        if (!tracks[index].paused) {
+          tracks[index].pause();
+        } else {
+          this._stopAllTracks();
+          tracks[index].play();
+        }
+
+        button.classList.toggle(`player-control--pause`);
+      });
+    });
 
     genresAnswer.forEach((answer) => {
       answer.addEventListener(`click`, () => {

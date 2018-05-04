@@ -16,6 +16,8 @@
   background-image: url("../img/icon-player-controls-sprite.png");
   background-repeat: no-repeat;
 
+  cursor: pointer;
+
   &--play {
     background-position: 0 0;
   }

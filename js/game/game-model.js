@@ -1,10 +1,10 @@
-import levels from './levels';
-import {INITIAL_STATE} from './game';
-import {GAME_RULE} from './game';
+import {INITIAL_STATE} from './game-data';
+import {GameRules} from './game-data';
 
 class GameModel {
-  constructor() {
+  constructor(levels) {
     this.levels = levels;
+    this.status = true;
     this.userAnswers = [];
     this.restart();
   }
@@ -23,7 +23,7 @@ class GameModel {
   }
 
   isOver() {
-    return this._state.mistakes >= GAME_RULE.AVAILABLE_MISTAKES;
+    return this._state.mistakes > GameRules.AVAILABLE_MISTAKES;
   }
 
   tick() {
@@ -38,6 +38,7 @@ class GameModel {
 
   changeLevel() {
     if (this.isOver()) {
+      this.status = false;
       this._state.level = `result`;
     } else {
       this._state.level = this.levels[this._state.level].next;

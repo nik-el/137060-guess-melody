@@ -1,4 +1,4 @@
-import {GAME_RULE} from './game/game';
+import {GameRules} from './game/game-data';
 
 const getPercentage = (commonScores, position) => {
   return (((commonScores.length) - position) / (commonScores.length) * 100).toFixed(0);
@@ -7,7 +7,7 @@ const getPercentage = (commonScores, position) => {
 const getFastAnswers = (answers) => {
   let result = 0;
   answers.forEach((answer) => {
-    if (answer.time < GAME_RULE.FAST_TIME && answer.isCorrect) {
+    if (answer.time < GameRules.FAST_TIME && answer.isCorrect) {
       result++;
     }
   });
@@ -39,18 +39,12 @@ const getCorrectScoreText = getCorrectNoun([`балл`, `балла`, `балл�
 const getCorrectFastAnswerText = getCorrectNoun([`быстрый`, `быстрых`, `быстрых`]);
 const getCorrectMistakesText = getCorrectNoun([`ошибку`, `ошибки`, `ошибок`]);
 const getCorrectPlayersText = getCorrectNoun([`игрока`, `игроков`, `игроков`]);
+const getCorrectMistakesTimeText = getCorrectNoun([`раз`, `раза`, `раз`]);
 
 
 const getTimerFormat = (time) => {
   let minutes = Math.floor(time / 60);
-  if (minutes < 10) {
-    minutes = `0` + minutes;
-  }
-
   let seconds = time - minutes * 60;
-  if (seconds < 10) {
-    seconds = `0` + seconds;
-  }
 
   return {minutes, seconds};
 };
@@ -70,5 +64,6 @@ export {
   getCorrectScoreText,
   getCorrectFastAnswerText,
   getCorrectMistakesText,
-  getCorrectPlayersText
+  getCorrectPlayersText,
+  getCorrectMistakesTimeText
 };

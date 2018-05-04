@@ -1,4 +1,8 @@
-import {getElementFromTemplate} from '../service/template';
+const getElementFromTemplate = (screenTemplate) => {
+  const newScreen = document.createElement(`div`);
+  newScreen.innerHTML = screenTemplate;
+  return newScreen;
+};
 
 class AbstractView {
   constructor() {

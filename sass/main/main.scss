@@ -36,7 +36,7 @@
 .title {
   color: $color-text-dark;
   display: block;
-  font: italic 300 2em $font;
+  font: italic 300 1.6em $font;
   margin: 0 0 0.2em;
 }
 
@@ -45,6 +45,11 @@
   display: block;
   font: 300 0.9em $font;
   margin: 0 0 1em;
+}
+
+.error-text {
+  color: #A10000;
+  font: 300 2em $font;
 }
 
 @import "--level/main--level";

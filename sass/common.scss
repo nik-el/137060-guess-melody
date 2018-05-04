@@ -43,6 +43,10 @@ body {
 
 .screen{
   height: inherit;
+
+  & > div {
+    height: inherit;
+  }
 }
 
 .copyright {
@@ -71,6 +75,11 @@ body {
 
 .copyright-link:hover {
   color: #f00;
+}
+
+// подсказка
+.true-answer{
+  opacity: .5;
 }
 
 @import "player/player";
