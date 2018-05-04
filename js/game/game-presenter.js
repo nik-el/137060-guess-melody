@@ -1,7 +1,7 @@
 import HeaderView from '../views/header-view';
 import ArtistView from '../views/artist-view';
 import GenreView from '../views/genre-view';
-import getScore from '../service/getScore';
+import getScore from '../service/get-score';
 
 class GamePresenter {
   constructor(model) {
@@ -35,71 +35,71 @@ class GamePresenter {
   }
 
   initGame() {
-    this.startGameTimer();
-    this.nextGame();
+    this._startGameTimer();
+    this._nextGame();
   }
 
-  startGameTimer() {
+  _startGameTimer() {
     this._interval = setInterval(() => {
       if (this.model.state.time <= 0) {
         this.model.status = false;
-        this.stopGame();
+        this._stopGame();
       }
       this.model.tick();
-      this.updateHeader();
+      this._updateHeader();
     }, 1000);
   }
 
-  stopGameTimer() {
+  _stopGameTimer() {
     clearInterval(this._interval);
   }
 
-  startLevelTimer() {
+  _startLevelTimer() {
     this.levelTime = 0;
     this._levelInterval = setInterval(() => {
       this.levelTime++;
     }, 1000);
   }
 
-  stopLevelTimer() {
+  _stopLevelTimer() {
     clearInterval(this._levelInterval);
     this.levelTime = null;
   }
 
-  stopGame() {
-    this.stopGameTimer();
-    this.stopLevelTimer();
+  _stopGame() {
+    this._stopGameTimer();
+    this._stopLevelTimer();
     if (this.model.status) {
       this.model.state.score = getScore(this.model.userAnswers, this.model.state.mistakes);
     }
     this.isOver(this.model.state, this.model.userAnswers, this.model.status, this.model.state.score);
   }
 
-  updateHeader() {
+  _updateHeader() {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
   }
 
-  nextGame() {
-    this.updateHeader();
-    this.startLevelTimer();
+  _nextGame() {
+    this._updateHeader();
+    this._startLevelTimer();
 
     const game = this.game;
-    game.sendAnswerClickHandler = this.rememberAnswer.bind(this);
-    this.updateGame(game);
+    game.sendAnswerClickHandler = this._rememberAnswer.bind(this);
+    this._updateGame(game);
   }
 
   get element() {
     return this.root;
   }
 
-  updateGame(view) {
+  _updateGame(view) {
     this.root.replaceChild(view.element, this.currentGame.element);
     this.currentGame = view;
   }
 
-  rememberAnswer(answersIndex) {
+  _rememberAnswer(answersIndex) {
     let isCorrectAnswer;
 
     switch (this.model.currentLevelData.type) {
@@ -130,10 +130,10 @@ class GamePresenter {
     this.model.changeLevel();
 
     if (this.model.state.level !== `result`) {
-      this.stopLevelTimer();
-      this.nextGame();
+      this._stopLevelTimer();
+      this._nextGame();
     } else {
-      this.stopGame();
+      this._stopGame();
     }
   }
 

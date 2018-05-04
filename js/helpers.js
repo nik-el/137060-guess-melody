@@ -43,21 +43,16 @@ const getCorrectMistakesTimeText = getCorrectNoun([`раз`, `раза`, `раз
 
 
 const getTimerFormat = (time) => {
-  let minutes = Math.floor(time / 60);
-  let seconds = time - minutes * 60;
+  const minutes = Math.floor(time / 60);
+  const seconds = time - minutes * 60;
 
   return {minutes, seconds};
-};
-
-const getRandomInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 export {
   getPercentage,
   getCorrectNoun,
   getTimerFormat,
-  getRandomInt,
   getFastAnswers,
   getCorrectMinutesText,
   getCorrectSecondsText,

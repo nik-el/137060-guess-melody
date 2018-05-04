@@ -1,6 +1,6 @@
 export const INITIAL_STATE = Object.freeze({
   mistakes: 0,
-  time: 300,
+  time: 10,
   score: 0,
   level: `0`,
 });

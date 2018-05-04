@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import getTextResult from '../service/getTextResult';
+import getTextResult from '../service/get-text-result';
 import {
   getTimerFormat,
   getFastAnswers,
@@ -11,7 +11,7 @@ import {
 } from '../helpers';
 import {GameRules} from '../game/game-data';
 
-export default class resultScreenView extends AbstractView {
+export default class ResultScreenView extends AbstractView {
   constructor(state, userAnswers, resultsAnswers) {
     super();
 

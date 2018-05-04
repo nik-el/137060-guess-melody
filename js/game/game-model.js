@@ -6,24 +6,20 @@ class GameModel {
     this.levels = levels;
     this.status = true;
     this.userAnswers = [];
-    this.restart();
+    this._restart();
   }
 
   get state() {
     return this._state;
   }
 
-  restart() {
-    this._state = JSON.parse(JSON.stringify(INITIAL_STATE));
-    this.userAnswers = [];
-  }
-
   get currentLevelData() {
     return this.levels[this._state.level];
   }
 
-  isOver() {
-    return this._state.mistakes > GameRules.AVAILABLE_MISTAKES;
+  _restart() {
+    this._state = JSON.parse(JSON.stringify(INITIAL_STATE));
+    this.userAnswers = [];
   }
 
   tick() {
@@ -34,6 +30,10 @@ class GameModel {
       return -1;
     }
     return --this._state.time;
+  }
+
+  isOver() {
+    return this._state.mistakes > GameRules.AVAILABLE_MISTAKES;
   }
 
   changeLevel() {
