@@ -41,13 +41,17 @@ const toJSON = (res) => res.json();
 export default class Loader {
   static loadData() {
     return fetch(`${SERVER_URL}/questions`)
-      .then(checkStatus)
-      .then(toJSON)
-      .then(adaptData)
-      .then((questions) => getAudioUrls(questions).map((audio) => loadAudio(audio)))
-      .then((audioPromises) => Promise.all(audioPromises));
+        .then(checkStatus)
+        .then(toJSON)
+        .then(adaptData);
   }
 
+  static loadAllTracks(questions) {
+    const a = getAudioUrls(questions).map((audio) => loadAudio(audio));
+    return Promise.all(a).then(() =>{
+      return questions;
+    });
+  }
   static loadResults() {
     return fetch(`${SERVER_URL}/stats/:${APP_ID}`).then(checkStatus).then(toJSON);
   }

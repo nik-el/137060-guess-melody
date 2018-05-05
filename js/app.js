@@ -24,7 +24,8 @@ export default class Application {
     const splash = new SplashScreen();
     changeView(splash.element);
     Loader.loadData()
-        .then(Application.showWelcome)
+        .then((questions) => Loader.loadAllTracks(questions))
+        .then((questions) => Application.showWelcome(questions))
         .catch(Application.showError);
   }
 
