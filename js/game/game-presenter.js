@@ -72,7 +72,7 @@ class GamePresenter {
     if (this.model.status) {
       this.model.state.score = getScore(this.model.userAnswers, this.model.state.mistakes);
     }
-    this.isOver(this.model.state, this.model.userAnswers, this.model.status, this.model.state.score);
+    this.isOver(this.model.state, this.model.userAnswers, this.model.levels, this.model.status);
   }
 
   _updateHeader() {
