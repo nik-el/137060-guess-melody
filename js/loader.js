@@ -2,7 +2,7 @@ import {adaptData} from './game/game-adapter';
 
 const ServerParameters = {
   SERVER_URL: `https://es.dump.academy/guess-melody`,
-  APP_ID: 7777777,
+  APP_ID: 24312423424,
 };
 
 const checkStatus = (response) => {

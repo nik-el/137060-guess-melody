@@ -39,24 +39,24 @@ export default class Application {
   static showGame(data) {
     const gameScreen = new GamePresenter(new GameModel(data));
 
-    gameScreen.isOver = (state, userAnswer, successGame) => {
+    gameScreen.isOver = (state, userAnswer, levels, successGame) => {
       if (successGame) {
         Loader.saveResults(state)
             .then(() => Loader.loadResults())
-            .then((results) => Application.showResult(state, userAnswer, results))
+            .then((results) => Application.showResult(state, userAnswer, levels, results))
             .catch(Application.showError);
       } else {
-        Application.showResult(state, userAnswer);
+        Application.showResult(state, userAnswer, levels);
       }
     };
     changeView(gameScreen.element);
     gameScreen.initGame();
   }
 
-  static showResult(state, userAnswer, resultsAnswers) {
+  static showResult(state, userAnswer, levels, resultsAnswers) {
     const results = new ResultView(state, userAnswer, resultsAnswers);
     results.replayGameHandler = () => {
-      Application.start();
+      Application.showGame(levels);
     };
     changeView(results.element);
   }

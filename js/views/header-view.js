@@ -1,4 +1,5 @@
 import AbstractView from './abstract-view';
+import {GameRules} from '../game/game-data';
 
 export default class HeaderView extends AbstractView {
   constructor(state) {
@@ -40,5 +41,10 @@ export default class HeaderView extends AbstractView {
     `;
   }
 
-  bind() {}
+  bind() {
+    const timer = this.element.querySelector(`.timer-value`);
+    if (this.state.time <= GameRules.END_TIME && !timer.classList.contains(`timer-value--finished`)) {
+      timer.classList.add(`timer-value--finished`);
+    }
+  }
 }
