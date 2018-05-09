@@ -51,10 +51,7 @@ export default class Loader {
   }
 
   static loadAllTracks(questions) {
-    const audioPromise = [];
-    for (const audio of getAudioUrls(questions)) {
-      audioPromise.push(loadAudio(audio));
-    }
+    const audioPromise = [...getAudioUrls(questions)].map((audio) => loadAudio(audio));
     return Promise.all(audioPromise).then((tracks) => {
       return {questions, tracks};
     });
