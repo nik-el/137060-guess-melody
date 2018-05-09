@@ -4,7 +4,7 @@ export default class Timer {
   }
 
   tick() {
-    if (typeof this.time !== `number` || this.time < 0) {
+    if (this.time < 0) {
       return null;
     }
 

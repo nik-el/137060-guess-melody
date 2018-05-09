@@ -13,12 +13,49 @@ const checkStatus = (response) => {
   }
 };
 
+const getAudioUrls = (questions) => {
+  const audioUrls = [];
+
+  for (const question of questions) {
+    if (question.type === `artist`) {
+      audioUrls.push(question.src);
+    } else if (question.type === `genre`) {
+      question.answers.forEach((answer) => {
+        audioUrls.push(answer.src);
+      });
+    }
+  }
+  return audioUrls;
+};
+
+const loadAudio = (url) => {
+  return new Promise((resolve, reject) => {
+    const audio = new Audio();
+    audio.preload = `auto`;
+    audio.src = url;
+
+    audio.oncanplay = () => resolve(audio);
+    audio.onerror = () => reject(`Не удалось загрузить аудио: ${url}`);
+  });
+};
+
 const toJSON = (res) => res.json();
 
 export default class Loader {
   static loadData() {
-    return fetch(`${ServerParameters.SERVER_URL}/questions`).then(checkStatus).then(toJSON).then(adaptData);
+    return fetch(`${ServerParameters.SERVER_URL}/questions`)
+        .then(checkStatus)
+        .then(toJSON)
+        .then(adaptData);
   }
+
+  static loadAllTracks(questions) {
+    const audioPromise = getAudioUrls(questions).map((audio) => loadAudio(audio));
+    return Promise.all(audioPromise).then((tracks) => {
+      return {questions, tracks};
+    });
+  }
+
 
   static loadResults() {
     return fetch(`${ServerParameters.SERVER_URL}/stats/:${ServerParameters.APP_ID}`).then(checkStatus).then(toJSON);

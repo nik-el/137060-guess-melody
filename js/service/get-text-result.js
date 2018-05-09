@@ -10,11 +10,7 @@ const compareNumeric = (prev, next) => {
   return next - prev;
 };
 
-export default (playerResult, resultsArray) => {
-  if (!Array.isArray(resultsArray)) {
-    return null;
-  }
-
+export default (playerResult, results) => {
   if (playerResult.mistakes > GameRules.AVAILABLE_MISTAKES) {
     return GAME_OVER.BY_ATTEMPTS;
   }
@@ -23,7 +19,7 @@ export default (playerResult, resultsArray) => {
     return GAME_OVER.BY_TIME;
   }
 
-  const commonScores = resultsArray.map((result) => {
+  const commonScores = results.map((result) => {
     if (!result) {
       return null;
     }

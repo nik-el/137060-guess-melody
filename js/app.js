@@ -24,7 +24,8 @@ export default class Application {
     const splash = new SplashScreen();
     changeView(splash.element);
     Loader.loadData()
-        .then(Application.showWelcome)
+        .then((questions) => Loader.loadAllTracks(questions))
+        .then((data) => Application.showWelcome(data))
         .catch(Application.showError);
   }
 
@@ -39,24 +40,24 @@ export default class Application {
   static showGame(data) {
     const gameScreen = new GamePresenter(new GameModel(data));
 
-    gameScreen.isOver = (state, userAnswer, levels, successGame) => {
+    gameScreen.isOver = (state, userAnswer, questions, tracks, successGame) => {
       if (successGame) {
         Loader.saveResults(state)
             .then(() => Loader.loadResults())
-            .then((results) => Application.showResult(state, userAnswer, levels, results))
+            .then((results) => Application.showResult(state, userAnswer, questions, tracks, results))
             .catch(Application.showError);
       } else {
-        Application.showResult(state, userAnswer, levels);
+        Application.showResult(state, userAnswer, questions, tracks);
       }
     };
     changeView(gameScreen.element);
     gameScreen.initGame();
   }
 
-  static showResult(state, userAnswer, levels, resultsAnswers) {
-    const results = new ResultView(state, userAnswer, resultsAnswers);
+  static showResult(state, userAnswer, questions, tracks, resultsAnsers) {
+    const results = new ResultView(state, userAnswer, resultsAnsers);
     results.replayGameHandler = () => {
-      Application.showGame(levels);
+      Application.showGame({questions, tracks});
     };
     changeView(results.element);
   }

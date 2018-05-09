@@ -22,26 +22,15 @@ const getSpecialAnswer = (specialCase) => {
 
 const createAnswers = (quantity, specialCase) => {
   const answers = [];
-  for (let i = 1; i <= quantity; i++) {
+
+  Array.from({length: quantity}, () => {
     answers.push(getSpecialAnswer(specialCase));
-  }
+  });
+
   return answers;
 };
 
 suite(`getScore`, () => {
-
-  test(`should return null when answers not array`, () => {
-    const lives = 3;
-    [
-      42,
-      {},
-      null,
-      ``
-    ].forEach((item) =>{
-      const actual = getScore(item, lives);
-      assert.isNull(actual);
-    });
-  });
 
   test(`should return -1 when mistakes > 3`, () => {
     const mistakes = 4;

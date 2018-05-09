@@ -1,9 +1,11 @@
 import {INITIAL_STATE} from './game-data';
 import {GameRules} from './game-data';
+import {GameStates} from './game-data';
 
 class GameModel {
-  constructor(levels) {
-    this.levels = levels;
+  constructor(data) {
+    this.levels = data.questions;
+    this.tracks = data.tracks;
     this.status = true;
     this.userAnswers = [];
     this._restart();
@@ -18,12 +20,12 @@ class GameModel {
   }
 
   _restart() {
-    this._state = JSON.parse(JSON.stringify(INITIAL_STATE));
+    this._state = Object.assign({}, INITIAL_STATE);
     this.userAnswers = [];
   }
 
   tick() {
-    if (typeof this._state.time !== `number` || this._state.time < 0) {
+    if (this._state.time < 0) {
       return null;
     }
     if (!this._state.time) {
@@ -39,7 +41,7 @@ class GameModel {
   changeLevel() {
     if (this.isOver()) {
       this.status = false;
-      this._state.level = `result`;
+      this._state.level = GameStates.RESULT;
     } else {
       this._state.level = this.levels[this._state.level].next;
     }

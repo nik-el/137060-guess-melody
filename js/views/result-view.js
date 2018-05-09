@@ -31,32 +31,32 @@ export default class ResultScreenView extends AbstractView {
   `);
   }
 
-  getResultTemplate() {
-    let textResult = ``;
-    if (this.state.mistakes > GameRules.AVAILABLE_MISTAKES) {
-      textResult = `
+  getOverMistakesResult() {
+    return `
         <h2 class="title">Какая жалость!</h2>
         <div class="main-stat">${getTextResult(this.state, [])}</div>
         <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
       `;
-      return textResult;
-    } else if (!this.state.time) {
-      textResult = `
+  }
+
+  getOverTimeResult() {
+    return `
         <h2 class="title">Увы и ах!</h2>
         <div class="main-stat">${getTextResult(this.state, [])}</div>
         <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>    
       `;
-      return textResult;
-    } else {
-      const currentTime = getTimerFormat(this.state.time);
+  }
 
-      const textMinutes = getCorrectMinutesText(currentTime.minutes);
-      const textSeconds = getCorrectSecondsText(currentTime.seconds);
-      const textScore = getCorrectScoreText(this.state.score);
-      const textFastAnswer = getCorrectFastAnswerText(getFastAnswers(this.userAnswers));
-      const textMistakes = getCorrectMistakesText(this.state.mistakes);
+  getWinResult() {
+    const currentTime = getTimerFormat(this.state.time);
 
-      textResult = `
+    const textMinutes = getCorrectMinutesText(currentTime.minutes);
+    const textSeconds = getCorrectSecondsText(currentTime.seconds);
+    const textScore = getCorrectScoreText(this.state.score);
+    const textFastAnswer = getCorrectFastAnswerText(getFastAnswers(this.userAnswers));
+    const textMistakes = getCorrectMistakesText(this.state.mistakes);
+
+    return `
         <h2 class="title">Вы настоящий меломан!</h2>
         <div class="main-stat">
           За ${textMinutes}
@@ -68,8 +68,16 @@ export default class ResultScreenView extends AbstractView {
         <span class="main-comparison">${getTextResult(this.state, this.resultsAnswers)}</span>
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       `;
-      return textResult;
+  }
+
+  getResultTemplate() {
+    if (this.state.mistakes > GameRules.AVAILABLE_MISTAKES) {
+      return this.getOverMistakesResult();
+    } else if (!this.state.time) {
+      return this.getOverTimeResult();
     }
+
+    return this.getWinResult();
   }
 
   replayGameHandler() {}

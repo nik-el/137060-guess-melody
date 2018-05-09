@@ -1,10 +1,11 @@
 import AbstractView from './abstract-view';
 
 export default class ArtistScreenView extends AbstractView {
-  constructor(state, currentLevelData) {
+  constructor(state, currentLevelData, tracks) {
     super();
 
     this.state = state;
+    this.tracks = tracks;
     this.currentLevelData = currentLevelData;
   }
 
@@ -15,8 +16,7 @@ export default class ArtistScreenView extends AbstractView {
          <h2 class="title main-title">${this.currentLevelData.question}</h2>
           <div class="player-wrapper">
             <div class="player">
-              <audio src="${this.currentLevelData.src}"></audio>
-              <button class="player-control"></button>
+              <button class="player-control" data-url="${this.currentLevelData.src}"></button>
               <div class="player-track">
                 <span class="player-status"></span>
               </div>
@@ -50,28 +50,44 @@ export default class ArtistScreenView extends AbstractView {
         .join(``);
   }
 
-  sendAnswerClickHandler() {}
-
-  bind() {
-    const controlButton = this.element.querySelector(`.player .player-control`);
-    const track = this.element.querySelector(`audio`);
-
+  _controlPlayerClickHandler(controlButton) {
     controlButton.addEventListener(`click`, (event) => {
       event.preventDefault();
 
-      if (!track.paused) {
-        track.pause();
-      } else {
-        track.play();
+      const audioUrl = event.target.getAttribute(`data-url`);
+      for (const track of this.tracks) {
+        if (track.src === audioUrl) {
+          if (!track.paused) {
+            track.pause();
+          } else {
+            track.play();
+          }
+        }
       }
 
       controlButton.classList.toggle(`player-control--pause`);
     });
+  }
+
+  _stopAllTracks() {
+    for (const track of this.tracks) {
+      track.pause();
+    }
+  }
+
+  sendAnswerClickHandler() {}
+
+  bind() {
+    const controlButton = this.element.querySelector(`.player .player-control`);
+
+    this._controlPlayerClickHandler(controlButton);
 
     const artistsAnswer = this.element.querySelectorAll(`.main-answer-wrapper`);
     artistsAnswer.forEach((answer) => {
       answer.addEventListener(`change`, (event) => {
-        this.sendAnswerClickHandler(event.target.value);
+        this._stopAllTracks();
+        const isCorrect = this.currentLevelData.answers[event.target.value].isCorrect;
+        this.sendAnswerClickHandler(isCorrect);
       });
     });
   }

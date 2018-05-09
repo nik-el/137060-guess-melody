@@ -2,6 +2,7 @@ import HeaderView from '../views/header-view';
 import ArtistView from '../views/artist-view';
 import GenreView from '../views/genre-view';
 import getScore from '../service/get-score';
+import {GameStates} from './game-data';
 
 class GamePresenter {
   constructor(model) {
@@ -24,11 +25,11 @@ class GamePresenter {
     let game;
 
     switch (type) {
-      case `artist`:
-        game = new ArtistView(this.model.state, this.model.currentLevelData);
+      case GameStates.ARTIST_LEVEL:
+        game = new ArtistView(this.model.state, this.model.currentLevelData, this.model.tracks);
         break;
-      case `genre`:
-        game = new GenreView(this.model.state, this.model.currentLevelData);
+      case GameStates.GENRE_LEVEL:
+        game = new GenreView(this.model.state, this.model.currentLevelData, this.model.tracks);
         break;
     }
     return game;
@@ -72,7 +73,7 @@ class GamePresenter {
     if (this.model.status) {
       this.model.state.score = getScore(this.model.userAnswers, this.model.state.mistakes);
     }
-    this.isOver(this.model.state, this.model.userAnswers, this.model.levels, this.model.status);
+    this.isOver(this.model.state, this.model.userAnswers, this.model.levels, this.model.tracks, this.model.status);
   }
 
   _updateHeader() {
@@ -99,25 +100,7 @@ class GamePresenter {
     this.currentGame = view;
   }
 
-  _rememberAnswer(answersIndex) {
-    let isCorrectAnswer;
-
-    switch (this.model.currentLevelData.type) {
-      case `artist`: {
-        isCorrectAnswer = this.model.currentLevelData.answers[answersIndex].isCorrect;
-        break;
-      }
-      case `genre`: {
-        isCorrectAnswer = true;
-        answersIndex.forEach((index) =>{
-          if (!this.model.currentLevelData.answers[index].isCorrect) {
-            isCorrectAnswer = false;
-          }
-        });
-        break;
-      }
-    }
-
+  _rememberAnswer(isCorrectAnswer) {
     if (!isCorrectAnswer) {
       ++this.model.state.mistakes;
     }
@@ -129,7 +112,7 @@ class GamePresenter {
 
     this.model.changeLevel();
 
-    if (this.model.state.level !== `result`) {
+    if (this.model.state.level !== GameStates.RESULT) {
       this._stopLevelTimer();
       this._nextGame();
     } else {

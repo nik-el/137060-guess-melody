@@ -3,14 +3,6 @@ import {assert} from 'chai';
 
 suite(`getTime`, () => {
 
-  test(`should return null when timer not consistent`, () => {
-    let timer = new Timer([]);
-    assert.isNull(timer.tick());
-
-    timer = new Timer(-1);
-    assert.isNull(timer.tick());
-  });
-
   test(`should return -1 when time is over `, () => {
     const timer = new Timer(0);
 

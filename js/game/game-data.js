@@ -12,3 +12,9 @@ export const GameRules = Object.freeze({
   END_TIME: 30,
 });
 
+export const GameStates = Object.freeze({
+  ARTIST_LEVEL: `artist`,
+  GENRE_LEVEL: `genre`,
+  RESULT: `result`,
+});
+

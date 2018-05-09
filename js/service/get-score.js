@@ -1,10 +1,6 @@
 import {GameRules} from '../game/game-data';
 
 export default (answers, mistakes) => {
-  if (typeof mistakes !== `number` || !Array.isArray(answers)) {
-    return null;
-  }
-
   if (mistakes > GameRules.AVAILABLE_MISTAKES || answers.length < GameRules.MIN_ANSWERS) {
     return -1;
   }
@@ -17,11 +13,9 @@ export default (answers, mistakes) => {
 
         if (answer.time < GameRules.FAST_TIME) {
           return acc + 2;
-        } else if (answer.time >= GameRules.FAST_TIME) {
-          return acc + 1;
         }
 
-        return acc;
+        return acc + 1;
       }, 0);
 
   if (result < 0) {

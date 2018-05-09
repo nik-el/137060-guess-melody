@@ -5,13 +5,11 @@ const getPercentage = (commonScores, position) => {
 };
 
 const getFastAnswers = (answers) => {
-  let result = 0;
-  answers.forEach((answer) => {
-    if (answer.time < GameRules.FAST_TIME && answer.isCorrect) {
-      result++;
-    }
+  const fastAnswers = answers.filter((answer) => {
+    return (answer.time < GameRules.FAST_TIME && answer.isCorrect);
   });
-  return result;
+
+  return fastAnswers.length;
 };
 
 const getCorrectNoun = ([one, betweenTwoAndFour, fiveAndMore]) => (originQuantity) => {
