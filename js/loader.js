@@ -14,17 +14,18 @@ const checkStatus = (response) => {
 };
 
 const getAudioUrls = (questions) => {
-  const audioUrls = [];
+  const audioUrls = new Set();
 
   for (const question of questions) {
     if (question.type === `artist`) {
-      audioUrls.push(question.src);
+      audioUrls.add(question.src);
     } else if (question.type === `genre`) {
       question.answers.forEach((answer) => {
-        audioUrls.push(answer.src);
+        audioUrls.add(answer.src);
       });
     }
   }
+
   return audioUrls;
 };
 
@@ -50,7 +51,10 @@ export default class Loader {
   }
 
   static loadAllTracks(questions) {
-    const audioPromise = getAudioUrls(questions).map((audio) => loadAudio(audio));
+    const audioPromise = [];
+    for (const audio of getAudioUrls(questions)) {
+      audioPromise.push(loadAudio(audio));
+    }
     return Promise.all(audioPromise).then((tracks) => {
       return {questions, tracks};
     });
